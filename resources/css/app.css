@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.border-site-color{
+    border-color: #22b9ad;
+}
+
+
+.text-site-color{
+    color: #22b9ad;
+}
+
+.bg-site-color{
+    background-color: #22b9ad;
+}
+
+
+
+[type="text"]:focus,[type="text"]:active, 
+  [type="email"]:focus, 
+  [type="url"]:focus, 
+  [type="password"]:focus, 
+  [type="number"]:focus, 
+  [type="date"]:focus, 
+  [type="datetime-local"]:focus, 
+  [type="month"]:focus, 
+  [type="search"]:focus, 
+  [type="tel"]:focus, 
+  [type="time"]:focus, 
+  [type="week"]:focus, 
+  [multiple]:focus, 
+  textarea:focus, 
+  select:focus{ 
+    border: 2px solid #22b9ad !important;
+    box-shadow: none !important;
+}
