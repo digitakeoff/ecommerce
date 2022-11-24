@@ -30,12 +30,12 @@
     bg-white bg-gray-200 md:rounded-bl-full border
     md:rounded-br-full md:w-8/12 w-full mx-auto text-gray-700">
         <ul class="flex py-2 justify-around md:flex-row flex-col md:text-center items-center">
-            <li class="w-full {{ Route::currentRouteName()=='products.index'? 'text-site-color':''}} md:w-1/5 md:border-r-2 border-site-color">
-                <a href="{{route('products.index')}}">Inventory</a>
+            <li class="w-full {{ Route::currentRouteName()=='cars.index'? 'text-site-color':''}} md:w-1/5 md:border-r-2 border-site-color">
+                <a href="{{route('cars.index')}}">Inventory</a>
             </li>
 
-            <li class="w-full md:w-1/5 md:border-r-2 border-site-color {{ Route::currentRouteName()=='products.create'? 'text-site-color':''}}">
-            <a class="w-full" href="{{route('products.create')}}">Sell your car</a>
+            <li class="w-full md:w-1/5 md:border-r-2 border-site-color {{ Route::currentRouteName()=='cars.create'? 'text-site-color':''}}">
+            <a class="w-full" href="{{route('cars.create')}}">Sell your car</a>
             </li>
             <li class="w-full md:w-1/5 md:border-r-2 border-site-color">
             <a href="#">Loan</a>
