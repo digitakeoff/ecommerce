@@ -12,4 +12,14 @@ class Bodytype extends Model
     protected $fillable = [
         'name', 'slug', 'image', 'description'
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

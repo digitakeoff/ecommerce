@@ -1,10 +1,11 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.app')
+
+
+@section('content')
+
+        <h1 class="max-w-xl mx-auto mb-10 uppercase pb-2 border-b border-site-color text-center w-full px-3">
+            Reset password
+        </h1>
 
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
@@ -47,5 +48,4 @@
                 </x-primary-button>
             </div>
         </form>
-    </x-auth-card>
-</x-guest-layout>
+@endsection

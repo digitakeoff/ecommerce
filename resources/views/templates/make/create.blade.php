@@ -2,7 +2,7 @@
 class="mx-auto mb-12 sm:w-10/12 w-full p-2" 
     x-on:submit.prevent="handleOnSubmit">
 
-        <h1 class="text-center uppercase mb-5 border-b-2 pb-2 border-site-color">Add Make</h1>
+        <h1 class="text-center uppercase mb-5 border-b-2 pb-2 bg-gray-100 border-site-color">Add Make</h1>
         
         <div x-data="fileupload" class="relative border rounded border border-gray-400">
             <div id="pic-upload panel" class="h-12 cursor-pointer text-center mt-10">

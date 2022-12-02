@@ -27,6 +27,11 @@ class Car extends Model
         'main_image_index', 'user_id'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 class CarController extends Controller
 {
    
+    public function __construct()
+    {
+        $this->middleware(['auth'])->except(['show', 'index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +32,9 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('admin.car.create');
+        if(request()->routeIs('admin.*'))
+            return view('admin.car.create');
+        return view('car.create');
     }
 
     /**
@@ -40,7 +46,7 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'images' => ['required'],
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],
@@ -59,23 +65,23 @@ class CarController extends Controller
         ]);
  
         $images = $request->images;
-        $slug = Str::slug(Str::lower($request->name), '-');
 
-        $name = Str::title($request->name);
+        $name = Str::title($request->year.' '.$request->make.' '.$request->model);
+        $slug = Str::slug($name, '-');
+
 
         $name_exist = Car::where('name', '=', $name)->get();
         $slug = count($name_exist)? $slug. '-' .count($name_exist) + 1 : $slug;
         
-        $props = (new Car)->props;
-        
         $data = [];
-        foreach($props as $prop){
+        $props = (new Car)->props;
+
+        foreach($props as $prop)
             $data[$prop] = $request->input($prop);
-        }
+        
         $data['slug'] = $slug;
         $data['images'] = $images;
-        // $data['user_id'] = $request->user()->id;
-        $data['user_id'] = 1;
+        $data['user_id'] = $request->user()->id;
         $data['make_id'] = $request->make;
         $data['model_id'] = $request->model;
         $data['main_image_index'] = $request->image_index;

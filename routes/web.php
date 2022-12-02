@@ -49,7 +49,8 @@ Route::get('/contact', [ContactController::class, 'getContact'])->name('contact'
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::post('/fileupload', function (Request $request) {
@@ -82,3 +83,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 Route::resource('makes', MakeController::class);
 Route::resource('bodytypes', BodytypeController::class);
 Route::resource('models', ModelController::class);
+
+
+Route::middleware('auth')->get('/user', function (Request $request) {
+    return $request->user();
+});

@@ -4,26 +4,12 @@ export default {
     locations: [],
 
     init() {
-        this.getLocation();
-        this.getCities();
-    },
-
-    getLocation(){
         window.axios.get('/location').then(({data}) => {
             this.locations = data
         })
+        this.state = localStorage.getItem('state')
+        this.city = localStorage.getItem('city')
     },
-
-    // getStates(){
-    //     window.axios.get('/location').then(({data}) => {
-    //         var states = {};
-    //         for(var i = 0; i < data.length; i++){
-    //             states[data[i].slug] = data[i].name
-    //         }
-    //         this.states = states
-    //         console.log(this.states)
-    //     })
-    // },
 
     getStates(){
         var states = {}
@@ -37,11 +23,17 @@ export default {
 
     selectState(state){
         this.state = state
-        console.log(state)
+        localStorage.setItem('state', this.state)
+    },
+
+    selectCity(city){
+        this.city = city
+        localStorage.setItem('city', this.city)
+        console.log(city)
     },
 
     getCities(){
-        if(this.state){
+        if(this.state && this.locations.length){
             var ap = this
             let state = this.locations.find(state => state.slug == ap.state)
             return state.cities

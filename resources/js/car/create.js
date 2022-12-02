@@ -13,13 +13,13 @@ export default () => ({
     condition:'',
     body_type:'',
     description:'',
-    image_index: '',  
-    location:{
-        state: '',
-        city: '',
-        address: ''
-    },
+    image_index: '', 
+    state: '',
+    city: '',
+    address: '',
 
+    
+    errors: null,
     body_types:[],
     makes:[],
     images:[],
@@ -40,6 +40,25 @@ export default () => ({
         window.axios.get('/models').then(({data}) => {
             this.models = data
         })
+
+        const data = JSON.parse(localStorage.getItem('data')) || {}
+        console.log(data)
+        for(let key in data){
+            this[key] = data[key]
+        }
+        
+        const els = document.querySelectorAll('[x-model]')
+        var ap = this
+        // Array.from(els).forEach(el => {
+        //     el.addEventListener('focus', function(e){
+        //         e.target.classList.remove('border-red-500')
+        //         ap.errors = null
+        //     })
+        // })
+
+        Array.from(els).forEach(el => {
+            el.addEventListener('change', ap.onchange)
+        })
     },
 
     getModelOfMake(){
@@ -49,40 +68,47 @@ export default () => ({
         }
     }, 
 
+    onchange(e){
+        const data = JSON.parse(localStorage.getItem('data'))||{}
+        data[e.target.getAttribute('x-model')] = e.target.value
+        localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
+        localStorage.setItem('data', JSON.stringify(data))
+        console.log(JSON.parse(localStorage.getItem('data')))
+    },
+
     handleOnSubmit(){
-        var description = window.tinymce.get('description').getContent()
-        if(!description)
-            description = this.description
+        var ap = this
+        const data = JSON.parse(localStorage.getItem('data'))||{}
+
+        const els = document.querySelectorAll('[x-model]')
+        Array.from(els).forEach(el => {
+            if(!el.value){
+                el.classList.add('border-red-500')
+            }
+        });
+
+        // const els = document.querySelectorAll('[x-model]')
+        // Array.from(els).forEach(el => {
+        //     el.addEventListener('change', ap.onchange)
+        // })
+
+        if(import.meta.env.VITE_APP_ENV == 'production')
+            var description = window.tinymce.get('description').getContent()
+
+        if(import.meta.env.VITE_APP_ENV == 'local')
+            var description = this.description
         
         const formData = new FormData
-        for (const key in this.$data) {
-            formData.append(key, this.$data[key])
+        for (let key in data){
+            formData.append(key, data[key])
         }
-        formData.append('images', JSON.stringify(this.images))
+        formData.append('images', this.images)
         formData.append('description', description)
-
-        // formData.append('name', this.name)
-        // formData.append('price', this.price)
-        // formData.append('state', this.location.state)
-        // formData.append('city', this.location.city)
-        // formData.append('address', this.location.address)
-        // formData.append('image_index', this.image_index)
-        // formData.append('images', JSON.stringify(this.images))
-        // formData.append('description', description)
-        // formData.append('ext_color', this.ext_color)
-        // formData.append('int_color', this.int_color)
-        // formData.append('make', this.make)
-        // formData.append('model', this.model)
-        // formData.append('year', this.year)
-        // formData.append('vin', this.vin)
-        // formData.append('condition', this.condition)
-        // formData.append('transmission', this.transmission)
-        // formData.append('mileage', this.mileage)
-        // formData.append('vehicle_drive', this.vehicle_drive)
-        // formData.append('body_type', this.body_type)
 
         window.axios.post('/cars', formData).then(({data}) => {
             console.log(data)
+        }).catch((error) => {
+            ap.errors = error.response.data.errors
         })
     }
 

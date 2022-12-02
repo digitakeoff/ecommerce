@@ -12,4 +12,16 @@ class Model extends Eloquent
     protected $fillable = [
         'name', 'slug', 'make_id', 'image'
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+
 }

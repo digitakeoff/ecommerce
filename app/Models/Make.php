@@ -21,4 +21,14 @@ class Make extends Eloquent
     {
         return $this->hasMany(Model::class);
     }
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
