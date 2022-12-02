@@ -29,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // View::share('makes', Make::all());
-        // View::share('bodies', Bodytype::all());
+        View::share('makes', Make::all());
+        View::share('bodies', Bodytype::all());
         Schema::defaultStringLength(191);
     }
 }
