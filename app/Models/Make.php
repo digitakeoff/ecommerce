@@ -9,7 +9,7 @@ class Make extends Eloquent
 {
     use HasFactory;
 
-    protected $table = 'makes';
+    // protected $table = 'makes';
     
     protected $with = ['models'];
 
