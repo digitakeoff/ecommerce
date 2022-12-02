@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-
+use App\Models\Make;
+use App\Models\Bodytype;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -26,8 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
-        View::share('makes', \App\Models\Make::all());
-        View::share('bodies', \App\Models\Bodytype::all());
+        View::share('makes', Make::all());
+        View::share('bodies', Bodytype::all());
     }
 }
