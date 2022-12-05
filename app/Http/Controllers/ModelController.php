@@ -16,7 +16,11 @@ class ModelController extends Controller
      */
     public function index()
     {
-        return response()->json(Model::all());
+        $models = Model::all();
+        if(request()->expectsJson())
+            return response()->json($models);
+        else
+            return view('admin.model.index', ['models' => $models]);
     }
 
     /**
@@ -39,29 +43,31 @@ class ModelController extends Controller
     {
         $request->validate([
             'name'  => ['required', 'string', 'unique:Models', 'max:255'],
-            'image' => ['required', 'string', 'max:255'],
             'make' => ['required', 'string', 'max:255']
         ]);
 
         $name = Str::title($request->name);
         $slug = Str::slug(Str::lower($request->name), '-');
-        $req_image = json_decode($request->image);
-
-        if(!file_exists(storage_path('/app/public/files/')))
-            mkdir(storage_path('/app/public/files/'), 0777, true);
-        $image = $slug.'.'.pathinfo($req_image->path, PATHINFO_EXTENSION);
-        Storage::move('/'.$req_image->path, '/public/files/'.$image);
-        $model = Model::create([
+        
+       
+        $data = [
             'name' => $name,
             'slug' => $slug,
-            'image' => $image,
             'make_id' => $request->make
-        ]);
+        ];
+        
+        if(($request->has('image'))){
+            $image = $this->store_image($slug, $request->image, 'models');
+            $data['image'] = $image;
+        }
+        
+        $model = Model::create($data);
 
         if($request->expectsJson())
             return response()->json($model);
         else
             return redirect()->back();
+
     }
 
     /**
@@ -83,7 +89,7 @@ class ModelController extends Controller
      */
     public function edit(Model $model)
     {
-        //
+        return view('admin.model.edit', ['model' => $model]);
     }
 
     /**
@@ -95,7 +101,35 @@ class ModelController extends Controller
      */
     public function update(Request $request, Model $model)
     {
-        //
+        $request->validate([
+            'name'  => ['required', 'string', 'max:255']
+        ]);
+
+        $name = Str::title($request->name);
+        $slug = Str::slug(Str::lower($request->name), '-');
+        $req_image = json_decode($request->image);
+
+        $image = $req_image;
+        if($request->has('image'))
+            $image = $this->store_image($slug, $request->image, 'models');
+        $data = [
+            'name' => $name,
+            'slug' => $slug,
+            'make_id' => $request->make_id
+        ];
+            
+        if(($request->has('image'))){
+            $image = $this->store_image($slug, $request->image, 'models');
+            $data['image'] = $image;
+        }
+        
+        $model->update($data);
+
+        if($request->expectsJson())
+            return response()->json($model);
+        else
+            return redirect()->back();
+
     }
 
     /**
@@ -106,6 +140,7 @@ class ModelController extends Controller
      */
     public function destroy(Model $model)
     {
-        //
+        $model->delete();
+        return redirect()->back();
     }
 }

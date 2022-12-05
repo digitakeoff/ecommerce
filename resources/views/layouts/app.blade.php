@@ -5,10 +5,7 @@
     <body >
         @include('layouts.navigation')
 
-        
         @yield('content')
-
-        
     </body>
 
     <footer class="w-full  fixed bottom-0">

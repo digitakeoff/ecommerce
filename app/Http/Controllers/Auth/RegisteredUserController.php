@@ -45,12 +45,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $slug = Str::slug(Str::title($request->first_name.' '.$request->last_name), '-');
+        $slug_exist = User::where('slug', '=', $slug)->get();
+        $slug = count($slug_exist)? $slug. '-' .count($slug_exist) + 1 : $slug;
         
         $user = User::create([
             'first_name' => Str::title($request->first_name),
             'last_name' => Str::title($request->last_name),
             'phone' => $request->phone,
             'city' => $request->city,
+            'slug' => $slug,
             'address' => Str::title($request->address),
             'state' => $request->state,
             'email' => $request->email,

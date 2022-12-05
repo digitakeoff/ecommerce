@@ -23,5 +23,9 @@ class Model extends Eloquent
         return 'slug';
     }
 
-
+    public function make()
+    {
+        return $this->belongsTo(Make::class);
+    }
+    
 }

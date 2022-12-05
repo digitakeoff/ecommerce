@@ -7,6 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\BodytypeController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,11 +76,15 @@ Route::name('admin.')->prefix('admin')->group(function () {
         })->name('create');
     });
 
+    Route::resource('users', UserController::class);
     Route::resource('makes', MakeController::class);
     Route::resource('models', ModelController::class);
+    Route::resource('bodytypes', BodytypeController::class);
+
 
 });
 
+Route::resource('users', UserController::class);
 Route::resource('makes', MakeController::class);
 Route::resource('bodytypes', BodytypeController::class);
 Route::resource('models', ModelController::class);

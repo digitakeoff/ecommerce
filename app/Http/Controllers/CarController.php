@@ -80,11 +80,12 @@ class CarController extends Controller
             $data[$prop] = $request->input($prop);
         
         $data['slug'] = $slug;
+        $data['name'] = $name;
         $data['images'] = $images;
         $data['user_id'] = $request->user()->id;
         $data['make_id'] = $request->make;
         $data['model_id'] = $request->model;
-        $data['main_image_index'] = $request->image_index;
+        $data['main_image_index'] = $request->image_index || 0;
 
         
         $car = Car::create($data);

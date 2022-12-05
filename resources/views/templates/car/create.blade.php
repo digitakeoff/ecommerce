@@ -119,7 +119,7 @@ class="mx-auto my-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
             <select x-model="model" id="model" x-bind:class="!models.length ? 'bg-gray-200 cursor-not-allowed':''" 
             x-bind:disabled="!models.length"  class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT MODEL --</option>
-                <template x-if="!make && models.length">
+                <template x-if="make && models.length">
                     <template x-for="model in getModelOfMake">
                     <option x-bind:value="model.id" 
                     x-bind:selected="model.id == localStorage.getItem('model')"

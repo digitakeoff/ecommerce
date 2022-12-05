@@ -1,6 +1,5 @@
 export default () => ({
     name: '',
-    make: '',
 
     errors: null,
 
@@ -13,7 +12,7 @@ export default () => ({
             formData.append('name', this.name)
             formData.append('image', JSON.stringify(images[images.length-1]))
 
-            window.axios.post('/admin/makes', formData).then(({data}) => {
+            window.axios.post('/admin/bodytypes', formData).then(({data}) => {
                 localStorage.removeItem('images')
                 location.reload()
                 console.log(data)

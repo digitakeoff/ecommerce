@@ -16,7 +16,11 @@ class MakeController extends Controller
      */
     public function index()
     {
-        return response()->json(Make::all());
+        $makes = Make::all();
+        if(request()->expectsJson())
+            return response()->json($makes);
+        else
+            return view('admin.make.index', ['makes' => $makes]);
     }
 
     /**
@@ -44,12 +48,17 @@ class MakeController extends Controller
 
         $name = Str::title($request->name);
         $slug = Str::slug(Str::lower($request->name), '-');
+        // $image = json_decode($request->image);
         $req_image = json_decode($request->image);
 
-        if(!file_exists(storage_path('/app/public/files/')))
-            mkdir(storage_path('/app/public/files/'), 0777, true);
-        $image = $slug.'.'.pathinfo($req_image->path, PATHINFO_EXTENSION);
-        Storage::move('/'.$req_image->path, '/public/files/'.$image);
+        // if(!file_exists(storage_path('/app/public/makes/')))
+        //     mkdir(storage_path('/app/public/makes/'), 0777, true);
+        // $image = $slug.'.'.pathinfo($req_image->path, PATHINFO_EXTENSION);
+        // Storage::move('/'.$req_image->path, '/public/makes/'.$image);
+        // $image = $this->store_image($slug, $request->image, 'makes');
+        if(!is_string($req_image)){
+            $image = $this->store_image($slug, $request->image, 'makes');
+        }
         $Make = Make::create([
             'name' => $name,
             'slug' => $slug,
@@ -81,7 +90,7 @@ class MakeController extends Controller
      */
     public function edit(Make $make)
     {
-        //
+        return view('admin.make.edit', ['make' => $make]);
     }
 
     /**
@@ -93,7 +102,30 @@ class MakeController extends Controller
      */
     public function update(Request $request, Make $make)
     {
-        //
+        $request->validate([
+            'name'  => ['required', 'string', 'max:255'],
+            'image' => ['required', 'string', 'max:255']
+        ]);
+
+        $name = Str::title($request->name);
+        $slug = Str::slug(Str::lower($request->name), '-');
+        $req_image = json_decode($request->image);
+
+        $image = $req_image;
+        if(!is_string($image))
+            $image = $this->store_image($slug, $request->image, 'makes');
+
+        
+        $make->update([
+            'name' => $name,
+            'slug' => $slug,
+            'image' => $image
+        ]);
+
+        if($request->expectsJson())
+            return response()->json($make);
+        else
+            return redirect()->back();
     }
 
     /**
@@ -104,6 +136,7 @@ class MakeController extends Controller
      */
     public function destroy(Make $make)
     {
-        //
+        $make->delete();
+        return redirect()->back();
     }
 }

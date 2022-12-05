@@ -21,7 +21,21 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'category',
+        'role',
+        'slug',
+        'phone',
+        'state',
+        'city',
+        'address',
+        'password',
+    ];
+
+    public $props = [
+        'first_name',
+        'last_name',
+        'email',
+        'role',
+        'slug',
         'phone',
         'state',
         'city',
@@ -37,8 +51,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'hidden',
-        'category'
+        'role'
     ];
 
 
