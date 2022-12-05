@@ -2,7 +2,7 @@
 <?php
 
 define('LARAVEL_START', microtime(true));
-// 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
+// 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
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
