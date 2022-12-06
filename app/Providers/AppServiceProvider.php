@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use App\Models\Car;
 use App\Models\Make;
 use App\Models\Bodytype;
 
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::share('makes', Make::all());
         View::share('bodies', Bodytype::all());
+        View::share('latestcars', Car::latest()->limit(5)->get());
         Schema::defaultStringLength(191);
     }
 }

@@ -74,7 +74,6 @@ export default () => ({
         data[e.target.getAttribute('x-model')] = e.target.value
         localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
         localStorage.setItem('data', JSON.stringify(data))
-        console.log(JSON.parse(localStorage.getItem('data')))
     },
 
     handleOnSubmit(){
@@ -103,8 +102,9 @@ export default () => ({
         for (let key in data){
             formData.append(key, data[key])
         }
-        formData.append('images', this.images)
+        formData.append('images', JSON.stringify(this.images))
         formData.append('description', description)
+        formData.append('main_image_index', this.image_index)
 
         window.axios.post('/cars', formData).then(({data}) => {
             console.log(data)

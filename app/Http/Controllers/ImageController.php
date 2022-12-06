@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Image::all());
     }
 
     /**
@@ -35,7 +36,15 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->file('file')->isValid()) {
+            $path = $request->file->store('/public/temp');
+            $url = Storage::url($path);
+            $image = Image::create([
+                'url' => $url,
+                'path' => $path 
+            ]);
+            return response()->json($image);
+        }
     }
 
     /**
@@ -80,6 +89,10 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        $image->delete();
+        if(request()->expectsJson())
+            return response()->json(['image' => 'deleted']);
+        else
+            return redirect()->back();
     }
 }

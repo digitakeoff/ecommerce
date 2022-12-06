@@ -1,5 +1,5 @@
 <form x-data="carcreate" enctype='multipart/form-data' method="post" id="carcreate"
-class="mx-auto my-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
+class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
     <h1 class="text-center bg-gray-200 text-gray-500 
             font-bold uppercase my-5 border-b-2 py-2 border-site-color">
         Sell car

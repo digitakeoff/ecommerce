@@ -64,11 +64,10 @@ class CarController extends Controller
             'body_type' => ['required', 'string', 'max:255']
         ]);
  
-        $images = $request->images;
+        $images = json_decode($request->images);
 
         $name = Str::title($request->year.' '.$request->make.' '.$request->model);
         $slug = Str::slug($name, '-');
-
 
         $name_exist = Car::where('name', '=', $name)->get();
         $slug = count($name_exist)? $slug. '-' .count($name_exist) + 1 : $slug;
@@ -81,7 +80,7 @@ class CarController extends Controller
         
         $data['slug'] = $slug;
         $data['name'] = $name;
-        $data['images'] = $images;
+        $data['images'] = json_encode($images);
         $data['user_id'] = $request->user()->id;
         $data['make_id'] = $request->make;
         $data['model_id'] = $request->model;

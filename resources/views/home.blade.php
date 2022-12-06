@@ -64,36 +64,11 @@
             </ul>
         </div>
     </div>
-
+    
     <div class="flex sm:flex-row flex-col p-2">
-            <template x-for="product in products">
-                <div class="w-full sm:w-1/5 shadow border flex sm:flex-col flex-row m-1 bg-black">
-                    <!-- <div class="w-2"> -->
-
-                    <img class="sm:w-full sm:h-56 w-28 h-28 block" 
-                    x-bind:src="'http://localhost:8000/dev/img/'+product.image" x-bind:alt="product.name">
-
-                    <p class="absolute bg-gray-900 text-gray-200 px-1 pr-4 rounded-br-full" 
-                    x-text="product.condition"></p>
-                    <!-- </div> -->
-                    
-                    <div class="bg-black text-white px-3 mb-3 sm:grow-0 grow pt-1">
-                        <p x-text="product.name"></p>
-                        <p class="text-yellow-500" x-text="product.amount"></p>
-                        <p  x-text="product.mileage"></p>
-                        <p>
-                            <span class="fas fa-map-marker-alt"></span>
-                            <span x-text="product.location"></span>
-                        </p>
-
-                        <button class="p-1 sm:block hidden uppercase border  hover:mt-1 rounded mt-2 border-site-color text-site-color w-full">
-                        <span class="fas fa-phone-alt"></span>
-                        <span>contact us</span>
-                    </button>
-                    </div>
-                    
-                </div>
-            </template>
+        @foreach($latestcars as $car)
+            <x-car-card :car="$car"/>
+        @endforeach
     </div>
 </main>
 @endsection

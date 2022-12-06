@@ -8,6 +8,7 @@ use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\BodytypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,7 +57,7 @@ Route::get('/dashboard', function () {
 
 Route::post('/fileupload', function (Request $request) {
     if ($request->file('file')->isValid()) {
-        $path = $request->file->store('/public/temp_dir');
+        $path = $request->file->store('/public/temp');
         $url = Storage::url($path);
         return response()->json(['url' => $url, 'path' => $path]);
     }
@@ -80,14 +81,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('makes', MakeController::class);
     Route::resource('models', ModelController::class);
     Route::resource('bodytypes', BodytypeController::class);
-
-
 });
 
 Route::resource('users', UserController::class);
 Route::resource('makes', MakeController::class);
 Route::resource('bodytypes', BodytypeController::class);
 Route::resource('models', ModelController::class);
+// Route::resource('images', ImageController::class);
 
 
 Route::middleware('auth')->get('/user', function (Request $request) {
