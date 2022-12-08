@@ -37,5 +37,4 @@ Alpine.data('useredit', useredit)
 Alpine.data('bodycreate', bodycreate)
 Alpine.data('bodyedit', bodyedit)
 
-
-window.Alpine.start()
+Alpine.start()

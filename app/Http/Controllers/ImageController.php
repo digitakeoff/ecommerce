@@ -78,13 +78,13 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        //
+        // 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Image  $image
+     * @param  \App\Models\Image $image
      * @return \Illuminate\Http\Response
      */
     public function destroy(Image $image)

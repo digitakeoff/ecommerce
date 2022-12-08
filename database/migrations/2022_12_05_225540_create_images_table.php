@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('url');
             $table->string('path');
-            $table->integer('imageable_id');
-            $table->string('imageable_type');
+            $table->string('folder')->nullable();
+            $table->integer('imageable_id')->default(0);
+            $table->string('imageable_type')->nullable();
             $table->timestamps();
         });
     }

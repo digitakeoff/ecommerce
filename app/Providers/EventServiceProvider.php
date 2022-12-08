@@ -6,8 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use App\Models\Make;
-use App\Observers\MakeObserver;
+use App\Events\ModelCreated;
+use App\Listeners\ProcessModelImage;
+// use App\Models\Make;
+// use App\Observers\MakeObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ModelCreated::class => [
+            ProcessModelImage::class,
+        ]
     ];
 
     /**
