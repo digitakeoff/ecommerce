@@ -14,7 +14,7 @@ class Make extends Eloquent
     protected $with = ['models'];
 
     protected $fillable = [
-        'name', 'slug', 'image'
+        'name', 'slug'
     ];
 
     public function models()

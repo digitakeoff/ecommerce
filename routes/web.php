@@ -87,7 +87,7 @@ Route::resource('users', UserController::class);
 Route::resource('makes', MakeController::class);
 Route::resource('bodytypes', BodytypeController::class);
 Route::resource('models', ModelController::class);
-// Route::resource('images', ImageController::class);
+Route::resource('images', ImageController::class);
 
 
 Route::middleware('auth')->get('/user', function (Request $request) {

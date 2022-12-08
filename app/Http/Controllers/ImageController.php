@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware(['auth'])->except(['show', 'index']);
+    // }
+    
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,8 @@ class ImageController extends Controller
      */
     public function index()
     {
-        return response()->json(Image::all());
+        // if(auth()->check())
+        return response()->json(Image::where('user_id', request()->user()->id)->where('imageable_id', 0)->get());
     }
 
     /**
@@ -36,12 +42,12 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('file')->isValid()) {
-            $path = $request->file->store('/public/temp');
-            $url = Storage::url($path);
+        if ($request->file('image')->isValid()) {
+            $path = $request->image->store('/public/files/');
+            $src = Storage::url($path);
             $image = Image::create([
-                'url' => $url,
-                'path' => $path 
+                'src' => $src,
+                'path' => $path
             ]);
             return response()->json($image);
         }
@@ -78,7 +84,21 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        //
+        $path = '/app/public/'.$request->folder;
+        if(!file_exists(storage_path($path)))
+            mkdir(storage_path($path), 0777, true);
+
+        $image = $slug.'.'.pathinfo($image->path, PATHINFO_EXTENSION);
+        $image_path = $path.'/'.$image;
+        $url = Storage::url($image_path);
+        Storage::move('/'.$image->path, $image_path);
+        // Storage::deleteDirectory('/app/public/temp_dir');
+        $image->update([
+            'url' => $url,
+            'path' => $image_path,
+            'imageable_id' => $imageable_image,
+        ]);
+        return $image;
     }
 
     /**

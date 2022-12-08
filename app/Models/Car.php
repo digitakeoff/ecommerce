@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Car extends Model
@@ -18,7 +18,7 @@ class Car extends Model
     ];
 
     public $props = [
-        'name', 'slug', 'price', 'description', 'state', 'images', 'city', 'address',
+        'name', 'slug', 'price', 'description', 'state', 'city', 'address',
         'user_id', 'condition', 'main_image_index', 'make_id', 'model_id', 'vin', 'year',
         'ext_color', 'int_color', 'vehicle_drive', 'transmission', 'body_type'
     ]; 
@@ -30,6 +30,22 @@ class Car extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function getCondition($condition)
+    {
+        switch($condition){
+            case 'brand-new':
+                return 'Brand new';
+                break;
+            case 'nigerian-used':
+                return 'Nigerian used';
+                break;
+            
+            case 'foreign-used':
+                return 'Foreigned used';
+                break;
+        }
     }
 
     public function images()

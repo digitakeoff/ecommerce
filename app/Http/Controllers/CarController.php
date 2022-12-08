@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Interfaces\CarRepositoryInterface;
 use App\Models\Image;
 use App\Models\Car;
+use App\Models\Make;
+use App\Models\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -66,7 +68,7 @@ class CarController extends Controller
  
         $images = json_decode($request->images);
 
-        $name = Str::title($request->year.' '.$request->make.' '.$request->model);
+        $name = Str::title($request->year.' '.Make::find($request->make)->name.' '.Model::find($request->model)->name);
         $slug = Str::slug($name, '-');
 
         $name_exist = Car::where('name', '=', $name)->get();

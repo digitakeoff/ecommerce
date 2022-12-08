@@ -1,11 +1,12 @@
 @props(['car'])
+
 <div class="shadow rounded overflow-hidden flex flex-col m-1 bg-black">
     <div class="relative">
         <img class="w-full h-48 block" 
-            src="{{$car->images[$car->main_image_index].md}}" 
+            src="{{asset('storage/files/'.json_decode($car->images)[$car->main_image_index]->lg)}}" 
             alt="{{$car->slug}}">
         <p class="absolute top-0 text-xs bg-gray-900 text-gray-200 px-1 pr-4 rounded-br-full">
-            {{$car->name}}
+            {{ucfirst(implode(" ", explode('-', $car->condition)))}}
         </p>
     </div>
                 
@@ -17,7 +18,8 @@
                         <p  class="md:block hidden">{{$car->mileage}}</p>
                         <p class="md:block hidden">
                             <span class="fas fa-map-marker-alt"></span>
-                            <span>{{$car->location}}</span>
+                            <span>{{ucwords(implode(" ", explode('-', $car->city)))}}</span>,
+                            <span>{{ucwords(implode(" ", explode('-', $car->state)))}}</span>
                         </p>
                     <!-- </div> -->
 

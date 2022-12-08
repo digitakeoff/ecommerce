@@ -16,12 +16,14 @@ import usercreate from './user/create'
 import useredit from './user/edit'
 import bodycreate from './body/create'
 import bodyedit from './body/edit'
+import imagecreate from './image/create'
 
 
 window.Alpine = Alpine
 
 Alpine.data('userregister', userregister)
 Alpine.data('fileupload', fileupload)
+Alpine.data('imagecreate', imagecreate)
 Alpine.store('location', location)
 Alpine.store('user', user)
 

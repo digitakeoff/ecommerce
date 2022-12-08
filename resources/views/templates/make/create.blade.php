@@ -11,7 +11,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
                 </template>
             </div>
         </template>
-        <div x-data="fileupload" id="image" class="relative border rounded border border-gray-400">
+        <div x-data="imagecreate" id="image" class="relative border rounded border border-gray-400">
             <div id="pic-upload panel" class="h-12 cursor-pointer text-center mt-10">
                 <div x-on:click="$refs.image_upload_input.click()">
                     <span class="fas fa-plus"></span>
