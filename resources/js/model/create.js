@@ -8,30 +8,27 @@ export default () => ({
 
     init(){
         const ap = this
-        this.images = JSON.parse(localStorage.getItem('images')) || []
         window.axios.get('/makes').then(({data}) => {
             this.makes = data
-            console.log(data)
         }).catch((error) => {
             ap.errors = error.response.data.errors
         })
-
-        
     },
 
     handleOnSubmit(){
         const ap = this;
+        const images = localStorage.getItem('images')
         const formData = new FormData
         formData.append('name', this.name)
         formData.append('make', this.make)
-        if(this.images.length)
-            formData.append('image', JSON.stringify(this.images[this.images.length-1]))
+        if(images.length)
+            formData.append('image', images[images.length-1].path)
 
-        window.axios.post('/models', formData).then(({data}) => {
-            console.log(data)
+        window.axios.post('/models', formData).then(() => {
+            localStorage.removeItem('images')
+            location.reload()
         }).catch((error) => {
             ap.errors = error.response.data.errors
         })
     }
-
 })

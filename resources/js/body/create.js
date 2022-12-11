@@ -10,12 +10,11 @@ export default () => ({
             let ap = this
             const formData = new FormData
             formData.append('name', this.name)
-            formData.append('image', JSON.stringify(images[images.length-1]))
+            formData.append('image', images[images.length-1].path)
 
-            window.axios.post('/admin/bodytypes', formData).then(({data}) => {
+            window.axios.post('/admin/bodytypes', formData).then(() => {
                 localStorage.removeItem('images')
                 location.reload()
-                console.log(data)
             }).catch((error) => {
                 ap.errors = error.response.data.errors
             })

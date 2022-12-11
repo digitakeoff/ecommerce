@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('src');
             $table->string('path');
             $table->text('sizes')->nullable();
+            $table->integer('imageable_id');
+            $table->string('imageable_type');
             $table->timestamps();
         });
     }

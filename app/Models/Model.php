@@ -23,9 +23,17 @@ class Model extends Eloquent
         return 'slug';
     }
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
+    public function images()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function make()
     {
         return $this->belongsTo(Make::class);
     }
-    
 }

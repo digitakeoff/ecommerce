@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bodytype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Events\ModelCreated;
 
 class BodytypeController extends Controller
 {
@@ -47,22 +48,13 @@ class BodytypeController extends Controller
 
         $name = Str::title($request->name);
         $slug = Str::slug(Str::lower($request->name), '-');
-        // $image = json_decode($request->image);
-        $req_image = json_decode($request->image);
-
-        // if(!file_exists(storage_path('/app/public/bodys/')))
-        //     mkdir(storage_path('/app/public/bodys/'), 0777, true);
-        // $image = $slug.'.'.pathinfo($req_image->path, PATHINFO_EXTENSION);
-        // Storage::move('/'.$req_image->path, '/public/bodys/'.$image);
-        // $image = $this->store_image($slug, $request->image, 'bodys');
-        if(!is_string($req_image)){
-            $image = $this->store_image($slug, $request->image, 'bodytypes');
-        }
+        
         $body = Bodytype::create([
             'name' => $name,
             'slug' => $slug,
-            'image' => $image
         ]);
+
+        event(new ModelCreated(get_class($body), $body->id, [$request->image]));
 
         if($request->expectsJson())
             return response()->json($body);

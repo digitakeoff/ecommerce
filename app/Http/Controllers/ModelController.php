@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Model;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\ModelCreated;
 use Illuminate\Support\Facades\Storage;
 
 class ModelController extends Controller
@@ -56,18 +57,15 @@ class ModelController extends Controller
             'make_id' => $request->make
         ];
         
-        if(($request->has('image'))){
-            $image = $this->store_image($slug, $request->image, 'models');
-            $data['image'] = $image;
-        }
-        
         $model = Model::create($data);
+
+        if($request->has('image') && $request->image)
+            event(new ModelCreated(get_class($model), $model->id, [$request->image]));
 
         if($request->expectsJson())
             return response()->json($model);
         else
             return redirect()->back();
-
     }
 
     /**

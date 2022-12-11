@@ -31,7 +31,6 @@ export default () => ({
                 window.axios.post('/fileupload', formData).then(({data})=>{
                     this.images.push(data);
                     localStorage.setItem('images', JSON.stringify(this.images))
-                    console.log(this.images)
                 })
             }
         })

@@ -11,10 +11,14 @@ class Make extends Eloquent
 
     // protected $table = 'makes';
     
-    protected $with = ['models'];
+    protected $with = ['models', 'images'];
 
     protected $fillable = [
         'name', 'slug'
+    ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
     ];
 
     public function models()
@@ -25,6 +29,11 @@ class Make extends Eloquent
     public function cars()
     {
         return $this->hasMany(Car::class);
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function getRouteKeyName()

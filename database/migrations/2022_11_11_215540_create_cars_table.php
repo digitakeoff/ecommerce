@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('model_id');
             $table->string('vin');
             $table->string('year');
+            $table->string('fuel');
             $table->string('ext_color');
             $table->string('int_color');
             $table->string('vehicle_drive');

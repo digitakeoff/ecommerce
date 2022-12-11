@@ -2,6 +2,7 @@ export default () => ({
     name:'',
     price:'',
     make:'',
+    fuel_type:'',
     model:'',
     year:'',
     vin:'',
@@ -86,11 +87,6 @@ export default () => ({
                 el.classList.add('border-red-500')
             }
         });
-
-        // const els = document.querySelectorAll('[x-model]')
-        // Array.from(els).forEach(el => {
-        //     el.addEventListener('change', ap.onchange)
-        // })
 
         if(import.meta.env.VITE_APP_ENV == 'production')
             var description = window.tinymce.get('description').getContent()
