@@ -1,9 +1,9 @@
 export default () => ({
     name:'',
     price:'',
-    make:'',
+    make_id:'',
     fuel_type:'',
-    model:'',
+    model_id:'',
     year:'',
     vin:'',
     vehicle_drive:'',
@@ -12,11 +12,11 @@ export default () => ({
     transmission:'',
     mileage:'',
     condition:'',
-    body_type:'',
+    bodytype_id:'',
     description:'',
     image_index: '', 
-    state: '',
-    city: '',
+    state_id: '',
+    city_id: '',
     address: '',
 
     
@@ -40,7 +40,6 @@ export default () => ({
 
         window.axios.get('/models').then(({data}) => {
             this.models = data
-            console.log(data)
         })
 
         const data = JSON.parse(localStorage.getItem('data')) || {}

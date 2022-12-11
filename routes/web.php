@@ -9,6 +9,7 @@ use App\Http\Controllers\ModelController;
 use App\Http\Controllers\BodytypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\StateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,7 +47,12 @@ Route::get('/location', function () {
     return response()->json($data);
 })->name('location');
 
+
+
 Route::resource('cars', CarController::class);
+Route::get('/states', [StateController::class, 'index']);
+Route::get('/states/{state}', [StateController::class, 'show']);
+
 Route::get('/contact', [ContactController::class, 'getContact'])->name('contact');
 
 Route::get('/dashboard', function () {

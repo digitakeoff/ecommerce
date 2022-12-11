@@ -1,43 +1,34 @@
 export default {
-    state: '',
-    city: '',
-    locations: [],
+    state_id: '',
+    city_id: '',
 
+    locations: [],
+    cities:[],
+    selectedState: '',
+    
     init() {
-        window.axios.get('/location').then(({data}) => {
+        window.axios.get('/states').then(({data}) => {
             this.locations = data
         })
-        this.state = localStorage.getItem('state')
-        this.city = localStorage.getItem('city')
-    },
-
-    getStates(){
-        var states = {}
-        if(this.locations.length){
-            for(var i = 0; i < this.locations.length; i++){
-                states[this.locations[i].slug] = this.locations[i].name
-            }
+        if(localStorage.getItem('state_id')){
+            window.axios.get('/states/'+localStorage.getItem('state_id')).then(({data}) => {
+                this.cities = data.cities
+                console.log(data.cities)
+            })
         }
-        return states
+        this.state_id = localStorage.getItem('state_id')
+        this.city_id = localStorage.getItem('city_id')
     },
 
-    selectState(state){
-        this.state = state
-        localStorage.setItem('state', this.state)
+    selectState(e){
+        this.state_id = e.target.value
+        localStorage.setItem('state_id', e.target.value)
     },
 
-    selectCity(city){
-        this.city = city
-        localStorage.setItem('city', this.city)
-        console.log(city)
-    },
-
-    getCities(){
-        if(this.state && this.locations.length){
-            var ap = this
-            let state = this.locations.find(state => state.slug == ap.state)
-            return state.cities
-        }
+    selectCity(e){
+        // if(this.state_id){
+            this.city_id = e.target.value
+            localStorage.setItem('city_id', e.target.value)
+        // }
     }
-    
 }

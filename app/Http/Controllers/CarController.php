@@ -13,10 +13,10 @@ use Illuminate\Support\Str;
 class CarController extends Controller
 {
    
-    public function __construct()
-    {
-        $this->middleware(['auth'])->except(['show', 'index']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware(['auth'])->except(['show', 'index']);
+    // }
     /**
      * Display a listing of the resource.
      *

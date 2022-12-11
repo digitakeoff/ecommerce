@@ -61,28 +61,31 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
     <div class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
-            <x-input-label for="state" :value="__('STATE')" />
-            <select x-model="state" id="state" class="py-1 w-full rounded border border-gray-300">
+            <x-input-label for="state_id" :value="__('STATE')" />
+            <select x-model="state_id" id="state_id" x-on:change="$store.location.selectState" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
-                <template x-for="(state, index) in $store.location.getStates()">
-                    <option x-bind:value="index" x-on:click="$store.location.selectState(index)" 
-                        x-text="state" x-bind:selected="index == localStorage.getItem('state')" ></option>
+                <template x-for="state in $store.location.locations">
+                    <option x-bind:value="state.id"
+                        x-text="state.name" x-bind:selected="state.id == localStorage.getItem('state_id')" ></option>
                 </template>
             </select>
         </div>
 
         <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
-            <x-input-label for="city" :value="__('CITY')" />
+            <x-input-label for="city_id" :value="__('CITY')" />
 
-            <select x-model="city" id="city" class="py-1 w-full rounded border border-gray-300"
-            x-bind:class="!state? 'bg-gray-200 cursor-not-allowed':''" 
-            x-bind:disabled="!state" >
+            <select x-model="city_id" id="city_id" x-on:change="$store.location.selectCity" 
+            class="py-1 w-full rounded border border-gray-300"
+            x-bind:class="!state_id? 'bg-gray-200 cursor-not-allowed':''" 
+            x-bind:disabled="!state_id" >
             <option value="">-- SELECT CITY --</option>
-            <template x-for="(city, index) in $store.location.getCities()">
-                    <option x-bind:value="city.slug" 
-                    x-on:click="$store.location.selectCity(index)"
-                    x-bind:selected="index == localStorage.getItem('city')"
-                    x-text="city.name"></option>
+            <template x-if="$store.location.cities.length">
+                <template x-for="city in $store.location.cities">
+                        <option x-bind:value="city.id" 
+                        
+                        x-bind:selected="city.id == localStorage.getItem('city_id')"
+                        x-text="city.name"></option>
+                </template>
             </template>
         </select>
         </div>
@@ -99,12 +102,12 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
     <div x-data class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
-            <x-input-label for="make" :value="__('MAKE')" />
-            <select x-model="make_id" id="make" class="py-1 w-full rounded border border-gray-300">
+            <x-input-label for="make_id" :value="__('MAKE')" />
+            <select x-model="make_id" id="make_id" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT MAKE --</option>
                 <template x-for="make in makes">
                     <option x-bind:value="make.id"  
-                    x-bind:selected="make.id == localStorage.getItem('make')"
+                    x-bind:selected="make.id == localStorage.getItem('make_id')"
                     x-text="make.name"></option>
                 </template>
             </select>
@@ -112,13 +115,13 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
         <div class="py-1 w-full rounded sm:mt-0 mt-3 sm:ml-1 ml-0 sm:w-1/2">
             <x-input-label for="model_id" :value="__('MODEL')" />
-            <select x-model="model" id="model" x-bind:class="!models.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            <select x-model="model_id" id="model_id" x-bind:class="!models.length ? 'bg-gray-200 cursor-not-allowed':''" 
             x-bind:disabled="!models.length"  class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT MODEL --</option>
-                <template x-if="make && models.length">
+                <template x-if="make_id && models.length">
                     <template x-for="model in getModelOfMake">
                     <option x-bind:value="model.id" 
-                    x-bind:selected="model.id == localStorage.getItem('model')"
+                    x-bind:selected="model.id == localStorage.getItem('model_id')"
                     x-text="model.name"></option>
                     </template>
                 </template>
@@ -235,13 +238,13 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         
         
         <div class="py-1 w-full rounded sm:ml-1 ml-0 sm:mt-0 mt-4 sm:w-1/2">
-            <x-input-label for="body_type" :value="__('BODY TYPE')" />
-            <select x-model="body_type" id="body_type"
+            <x-input-label for="bodytype_id" :value="__('BODY TYPE')" />
+            <select x-model="bodytype_id" id="bodytype_id"
                 class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT BODY TYPE --</option>
                 <template x-for="body in body_types">
                     <option x-bind:value="body.id"
-                    x-bind:selected="body.id == localStorage.getItem('body_type')"
+                    x-bind:selected="body.id == localStorage.getItem('bodytype_id')"
                     x-text="body.name"></option>
                 </template>
             </select>

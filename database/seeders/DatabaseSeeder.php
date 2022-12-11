@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            BodyTypeseeder::class,
-            MakeSeeder::class,
+            // BodyTypeseeder::class,
+            // MakeSeeder::class,
+            LocationSeeder::class
         ]);
     }
 }

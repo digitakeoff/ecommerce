@@ -12,15 +12,15 @@ class Car extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'price', 'description', 'state', 'images', 'city', 'address',
+        'name', 'slug', 'price', 'description', 'state_id', 'images', 'city_id', 'address',
         'user_id', 'condition', 'main_image_index', 'make_id', 'model_id', 'vin', 'year',
-        'ext_color', 'int_color', 'vehicle_drive', 'transmission', 'body_type'
+        'ext_color', 'int_color', 'vehicle_drive', 'transmission', 'bodytype_id'
     ];
 
     public $props = [
-        'name', 'slug', 'price', 'description', 'state', 'city', 'address',
+        'name', 'slug', 'price', 'description', 'state_id', 'city_id', 'address',
         'user_id', 'condition', 'main_image_index', 'make_id', 'model_id', 'vin', 'year',
-        'ext_color', 'int_color', 'vehicle_drive', 'transmission', 'body_type'
+        'ext_color', 'int_color', 'vehicle_drive', 'transmission', 'bodytype_id'
     ]; 
 
     protected $hidden = [
