@@ -89,6 +89,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 });
 
 Route::resource('users', UserController::class);
+// Route::get('/makes/{id}', [MakeController::class, 'show']);
 Route::resource('makes', MakeController::class);
 Route::resource('bodytypes', BodytypeController::class);
 Route::resource('models', ModelController::class);

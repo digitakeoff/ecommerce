@@ -16,6 +16,7 @@ import usercreate from './user/create'
 import useredit from './user/edit'
 import bodycreate from './body/create'
 import bodyedit from './body/edit'
+import makemodel from './makemodel'
 // import imagecreate from './image/create'
 
 
@@ -24,7 +25,8 @@ window.Alpine = Alpine
 Alpine.data('userregister', userregister)
 Alpine.data('fileupload', fileupload)
 // Alpine.data('imagecreate', imagecreate)
-Alpine.store('location', location)
+Alpine.data('location', location)
+Alpine.data('makemodel', makemodel)
 Alpine.store('user', user)
 
 Alpine.data('carousel', carousel)

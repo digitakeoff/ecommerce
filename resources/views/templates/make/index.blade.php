@@ -15,7 +15,7 @@
         @foreach($makes as $make)
             <tr class="border-b border-gray-300">
                 <td>
-                <img class="w-10 h-10" src="{{asset('storage/makes/'.$make->image)}}" alt="{{$make->name}}">
+                <img class="w-10 h-10" src="{{($make->image != null)?asset($make->image->src):''}}" alt="{{$make->name}}">
                 </td>
                 <td>
                     <a href="{{route('makes.index')}}">

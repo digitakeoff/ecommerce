@@ -17,7 +17,7 @@ export default () => ({
 
     handleOnSubmit(){
         const ap = this;
-        const images = localStorage.getItem('images')
+        const images = localStorage.getItem('images')|| []
         const formData = new FormData
         formData.append('name', this.name)
         formData.append('make', this.make)

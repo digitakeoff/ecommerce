@@ -13,12 +13,16 @@ class Bodytype extends Model
         'name', 'slug', 'image', 'description'
     ];
 
+    protected $with = [
+        'cars', 'image'
+    ];
+
     public function cars()
     {
-        return $this->hasMany(Car::class, 'body_type');
+        return $this->hasMany(Car::class);
     }
 
-    public function images()
+    public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
     }

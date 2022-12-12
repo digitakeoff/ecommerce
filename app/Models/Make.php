@@ -11,7 +11,7 @@ class Make extends Eloquent
 
     // protected $table = 'makes';
     
-    protected $with = ['models', 'images'];
+    protected $with = ['models', 'image'];
 
     protected $fillable = [
         'name', 'slug'
@@ -31,13 +31,17 @@ class Make extends Eloquent
         return $this->hasMany(Car::class);
     }
 
-    public function images()
+    public function image()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function getRouteKeyName()
     {
+        if ($this->id !== null) {
+            return 'id';
+        }
+        // otherwise, return default
         return 'slug';
     }
 }
