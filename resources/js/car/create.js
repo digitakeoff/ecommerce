@@ -15,8 +15,8 @@ export default () => ({
     bodytype_id:'',
     description:'',
     image_index: '', 
-    state_id: '',
-    city_id: '',
+    state: '',
+    city: '',
     address: '',
 
     

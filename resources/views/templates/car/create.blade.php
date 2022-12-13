@@ -59,10 +59,10 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         x-model="address" x-model="address"  required />
     </div>
 
-    <div class="flex flex-col sm:flex-row mt-4">
+    <div x-data class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="state_id" :value="__('STATE')" />
-            <select x-model="state_id" id="state_id" x-on:change="$store.location.selectState" class="py-1 w-full rounded border border-gray-300">
+            <select x-model="state_id" id="state_id" x-on:change="$store.location.selectState(event)" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
                 <template x-for="state in $store.location.locations">
                     <option x-bind:value="state.id"
@@ -79,7 +79,7 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             x-bind:class="!state_id? 'bg-gray-200 cursor-not-allowed':''" 
             x-bind:disabled="!state_id" >
             <option value="">-- SELECT CITY --</option>
-            <template x-if="$store.location.cities.length">
+            <template x-if="$store.location.state_id">
                 <template x-for="city in $store.location.cities">
                         <option x-bind:value="city.id" 
                         
