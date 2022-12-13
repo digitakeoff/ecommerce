@@ -70,8 +70,14 @@ export default () => ({
 
     onchange(e){
         const data = JSON.parse(localStorage.getItem('data'))||{}
-        data[e.target.getAttribute('x-model')] = e.target.value
-        localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
+
+        if(typeof JSON.parse(e.target.value)  == 'object'){
+            data[e.target.getAttribute('x-model')] = (JSON.parse(e.target.value)).id
+            localStorage.setItem(e.target.getAttribute('x-model'), (JSON.parse(e.target.value)).id)
+        } else {
+            data[e.target.getAttribute('x-model')] = e.target.value
+            localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
+        }
         localStorage.setItem('data', JSON.stringify(data))
         console.log(data)
     },

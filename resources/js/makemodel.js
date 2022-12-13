@@ -6,10 +6,10 @@ export default () => ({
     models:[],
     
     init() {
-        window.axios.get('/makes/1').then(({data}) => {
-            this.makes = data
-            console.log(data)
-        })
+        // window.axios.get('/makes/1').then(({data}) => {
+        //     this.makes = data
+        //     console.log(data)
+        // })
         
         this.make_id = localStorage.getItem('make_id')
         this.model_id = localStorage.getItem('model_id')

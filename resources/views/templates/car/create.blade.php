@@ -66,9 +66,8 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             x-on:change="selectState" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
                 <template x-for="state in locations">
-                    <option x-bind:value="state.id"
-                        x-text="state.name" 
-                        x-bind:selected="state.id == localStorage.getItem('state_id')" >
+                    <option x-bind:value="JSON.stringify(state)"
+                        x-text="state.name"  >
                     </option>
                 </template>
             </select>

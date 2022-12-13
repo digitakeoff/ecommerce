@@ -16,11 +16,12 @@ export default () => ({
     },
 
     selectState(e){
-        this.state_id = e.target.value
-        localStorage.setItem('state_id', e.target.value)
+        const state = JSON.parse(e.target.value)
+        this.state_id = state.id
+        localStorage.setItem('state_id', this.state_id)
 
         // if(this.state_id){
-            window.axios.get('/states/'+e.target.value).then(({data}) => {
+            window.axios.get('/states/'+this.state_id).then(({data}) => {
                 this.cities = data.cities
                 console.log(data.cities)
             })
