@@ -17,6 +17,7 @@ class ModelCreated
     public $namespace;
     public $model_id;
     public $temp_path;
+    // public $convert;
     
     /**
      * Create a new event instance.
@@ -28,6 +29,7 @@ class ModelCreated
         $this->namespace = $namespace;
         $this->model_id = $model_id;
         $this->temp_path = $temp_path;
+        // $this->convert = $convert;
     }
 
     /**

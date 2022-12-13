@@ -83,9 +83,9 @@ class CarController extends Controller
         $data['slug'] = $slug;
         $data['name'] = $name;
         $data['images'] = json_encode($images);
-        $data['user_id'] = $request->user()->id;
-        $data['make_id'] = $request->make;
-        $data['model_id'] = $request->model;
+        $data['user_id'] = 1;
+        // $data['make_id'] = $request->make;
+        // $data['model_id'] = $request->model;
         $data['main_image_index'] = $request->image_index || 0;
 
         

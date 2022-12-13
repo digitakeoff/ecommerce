@@ -15,7 +15,7 @@
         @foreach($models as $model)
             <tr class="border-b border-gray-300">
                 <td>
-                <img class="w-10 h-10" src="{{asset('storage/models/'.$model->image)}}" alt="{{$model->name}}">
+                <img class="w-10 h-10" src="{{($model->image != null)?asset($model->image->src):''}}" alt="{{$model->name}}">
                 </td>
                 <td>
                     <a href="{{route('models.index')}}">

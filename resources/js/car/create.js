@@ -43,7 +43,6 @@ export default () => ({
         })
 
         const data = JSON.parse(localStorage.getItem('data')) || {}
-        console.log(data)
         for(let key in data){
             this[key] = data[key]
         }
@@ -74,6 +73,7 @@ export default () => ({
         data[e.target.getAttribute('x-model')] = e.target.value
         localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
         localStorage.setItem('data', JSON.stringify(data))
+        console.log(data)
     },
 
     handleOnSubmit(){
@@ -97,7 +97,12 @@ export default () => ({
         for (let key in data){
             formData.append(key, data[key])
         }
-        formData.append('images', JSON.stringify(this.images))
+
+        const image_paths = this.images.map((image) => {
+            return image.path
+        })
+
+        formData.append('images', JSON.stringify(image_paths))
         formData.append('description', description)
         formData.append('main_image_index', this.image_index)
 

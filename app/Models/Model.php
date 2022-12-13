@@ -9,6 +9,8 @@ class Model extends Eloquent
 {
     use HasFactory;
 
+    protected $with = ['image'];
+
     protected $fillable = [
         'name', 'slug', 'make_id', 'image'
     ];

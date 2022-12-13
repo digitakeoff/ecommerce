@@ -37,30 +37,33 @@ class Image extends Model
             define('DS', DIRECTORY_SEPARATOR);
         parent::boot();
         static::created(function ($image) {
-            $folder = explode(DS, $image->path);
-            $image_name = $folder[count($folder) - 1];
-            $folder = strtolower($folder[count($folder) - 2]);
-            $storage_path = "public/$folder/";
-            $o_path = DS.'app'.DS.'public'.DS.$folder.DS;
+            if($image->imageable_type == 'App\Models\Car'){
+                $folder = explode(DS, $image->path);
+                $image_name = $folder[count($folder) - 1];
+                $folder = strtolower($folder[count($folder) - 2]);
+                $storage_path = "public/$folder/";
+                $o_path = DS.'app'.DS.'public'.DS.$folder.DS;
+                
+                $sizes = [];
             
-            $sizes = [];
-            foreach(self::SIZES as $key => $size){
-                $path = $o_path.$key.'_'.$image_name;
-                $src = $storage_path.$key.'_'.$image_name;
+                foreach(self::SIZES as $key => $size){
+                    $path = $o_path.$key.'_'.$image_name;
+                    $src = $storage_path.$key.'_'.$image_name;
 
-                ImageProcessor::make(storage_path($image->path))
-                ->resize($size, $size)->save(storage_path($path));
+                    ImageProcessor::make(storage_path($image->path))
+                    ->resize($size, $size)->save(storage_path($path));
 
-                $sizes[] = [
-                    'src' => Storage::url($src),
-                    'path' => $path
-                ];
+                    $sizes[] = [
+                        'src' => Storage::url($src),
+                        'path' => $path
+                    ];
 
-                // $path = $o_path;
+                    // $path = $o_path;
+                }
+
+                $image->sizes = $sizes;
+                $image->save();
             }
-
-            $image->sizes = $sizes;
-            $image->save();
         });
     }
 }
