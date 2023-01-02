@@ -22,30 +22,34 @@ use App\Http\Controllers\StateController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', ['latestcars' => App\Models\Car::latest()->limit(5)->get()]);
 })->name('home');
 
-Route::get('/location', function () {
-    $file = json_decode(file_get_contents(base_path('states-and-cities.json')), true);
+Route::get('/latests', function () {
+    return response()->json(App\Models\Car::latest()->limit(5)->get());
+});
 
-    $data = [];
-    foreach($file as $state){
-        $state_info = [];
+// Route::get('/location', function () {
+//     $file = json_decode(file_get_contents(base_path('states-and-cities.json')), true);
 
-        $state_info['name'] = $state['name'];
-        $state_info['slug'] = Str::slug(Str::lower($state['name']));
+//     $data = [];
+//     foreach($file as $state){
+//         $state_info = [];
 
-        foreach($state['cities'] as $city){
-            $cities = [];
+//         $state_info['name'] = $state['name'];
+//         $state_info['slug'] = Str::slug(Str::lower($state['name']));
 
-            $cities['name'] = $city;
-            $cities['slug'] = Str::slug(Str::lower($city));
-            $state_info['cities'][] = $cities; 
-        }
-        $data[] = $state_info;
-    }
-    return response()->json($data);
-})->name('location');
+//         foreach($state['cities'] as $city){
+//             $cities = [];
+
+//             $cities['name'] = $city;
+//             $cities['slug'] = Str::slug(Str::lower($city));
+//             $state_info['cities'][] = $cities; 
+//         }
+//         $data[] = $state_info;
+//     }
+//     return response()->json($data);
+// })->name('location');
 
 
 
@@ -55,10 +59,27 @@ Route::get('/states/{state}', [StateController::class, 'show']);
 
 Route::get('/contact', [ContactController::class, 'getContact'])->name('contact');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::name('dashboard.')->prefix('dashboard')->group(function () {
+
+
+    Route::get('/', function () {
+        return view('dashboard.listings');
+    });
+    
+    Route::get('/listings', function (Request $request) {
+        return view('dashboard.listings', ['cars' => \App\Models\Car::where('user_id', $request->user()->id)->get()]);
+    })->name('listings');
+
+    Route::get('/profile', function (Request $request) {
+        return view('dashboard.profile', ['user' => $request->user()]);
+    })->name('profile');
+
+    Route::get('/leads', function () {
+        return view('dashboard.leads');
+    })->name('leads');
+
+});
+// ->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::post('/fileupload', function (Request $request) {
@@ -76,12 +97,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
         return view('admin.home');
     })->name('home');
     
-    Route::name('cars.')->prefix('cars')->group(function () {
-        Route::get('/create', function () {
-            return view('admin.car.create');
-        })->name('create');
-    });
+    
 
+    Route::resource('cars', CarController::class);
     Route::resource('users', UserController::class);
     Route::resource('makes', MakeController::class);
     Route::resource('models', ModelController::class);

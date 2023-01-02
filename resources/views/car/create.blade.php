@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('templates.car.create')
+<div class="mt-12">
+@include('templates.car.create')
+</div>
 @endsection
-

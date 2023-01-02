@@ -4,8 +4,9 @@
 @section('content')
 <div class="mx-3 mt-6">
 
-        <h1 class="max-w-xl mx-auto mb-10 uppercase pb-2 border-b border-site-color text-center w-full px-3">
-            log in
+        <h1 class="max-w-xl mx-auto mb-5 uppercase pb-2 w-full mt-20
+        text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
+            {{ __('log in') }}
         </h1>
 
 
@@ -15,7 +16,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" />
+                <x-input-label for="email" :value="__('EMAIL ADDRESS')" />
 
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
 
@@ -24,7 +25,7 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+                <x-input-label for="password" :value="__('PASSWORD')" />
 
                 <x-text-input id="password" class="block mt-1 w-full"
                                 type="password"
@@ -42,16 +43,17 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
+                <button class="ml-4 bg-site-color uppercase py-1 px-2 
+                     rounded text-white hover:bg-green-900">
+                    {{ __('LOG IN') }}
+                </button>
             </div>
         </form>
 </div>

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('price');
             $table->text('description')->nullable();
             $table->integer('state_id');
-            $table->text('images');
             $table->integer('city_id');
             $table->string('address');
             $table->integer('user_id');
@@ -29,13 +28,18 @@ return new class extends Migration
             $table->integer('make_id');
             $table->integer('model_id');
             $table->string('vin');
+            $table->string('mileage');
             $table->string('year');
-            $table->string('fuel');
+            $table->string('fuel_type');
+            $table->string('drivetrain');
             $table->string('ext_color');
             $table->string('int_color');
-            $table->string('vehicle_drive');
             $table->string('transmission');
             $table->integer('bodytype_id');
+            $table->integer('airbags');
+            $table->integer('seats');
+            $table->integer('doors');
+            $table->integer('speed');
             $table->timestamps();
         });
     }

@@ -29,35 +29,38 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
     <div class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="state" :value="__('STATE')" />
-            <select x-model="state" id="state" class="py-1 w-full rounded border border-gray-300">
+            <select x-model="state_id" id="state_id" 
+            x-on:change="$store.location.selectState(event)" 
+            class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
-                <template x-for="(state, index) in $store.location.getStates()">
-                    <option x-bind:value="index" x-on:click="$store.location.selectState(index)" 
-                        x-text="state" x-bind:selected="index == localStorage.getItem('state')" ></option>
+                <template x-for="state in $store.location.locations">
+                    <option x-bind:value="state.id"
+                        x-text="state.name" 
+                        x-bind:selected="state.id == localStorage.getItem('state_id')" >
+                    </option>
                 </template>
             </select>
         </div>
-
+        
         <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
-            <x-input-label for="city" :value="__('CITY')" />
+            <x-input-label for="city_id" :value="__('CITY')" />
 
-            <select x-model="city" id="city" class="py-1 w-full rounded border border-gray-300"
-            x-bind:class="!state? 'bg-gray-200 cursor-not-allowed':''" 
-            x-bind:disabled="!state" >
+            <select x-model="city_id" id="city_id"  x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            x-bind:disabled="!$store.location.cities.length" x-on:change="$store.location.selectCity(event)" 
+            class="py-1 w-full rounded border border-gray-300">
             <option value="">-- SELECT CITY --</option>
-            <template x-for="(city, index) in $store.location.getCities()">
-                    <option x-bind:value="city.slug" 
-                    x-on:click="$store.location.selectCity(index)"
-                    x-bind:selected="index == localStorage.getItem('city')"
-                    x-text="city.name"></option>
-            </template>
+            <!-- <template x-if="$store.location.cities.length"> -->
+                <template x-for="city in $store.location.cities">
+                        <option x-bind:value="city.id" 
+                        x-bind:selected="city.id == localStorage.getItem('city_id')"
+                        x-text="city.name"></option>
+                </template>
+            <!-- </template> -->
         </select>
         </div>
        
     </div>
         
-   
-
     <div x-data class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="first_name" :value="__('FIRST_NAME')" />
@@ -87,9 +90,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
 
             <select x-model="role" id="role" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- ROLE --</option>
-                <option value="customer">CUSTOMER</option>
                 <option value="agent">AGENT</option>
-                <option value="dealer">DEALER</option>
                 <option value="manager">MANAGER</option>
                 <option value="admin">ADMIN</option>
             </select>
@@ -118,7 +119,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
     <div class="mt-4">
         <x-input-label for="password" :value="__('PASSWORD')" />
 
-        <x-text-input id="password" class="block mt-1 w-full py-1" type="text" 
+        <x-text-input id="password" class="block mt-1 w-full py-1" type="password" 
             x-model="password" :value="old('password')" required />
 
         <x-input-error :messages="$errors->get('password')" class="mt-2" />

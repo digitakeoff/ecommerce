@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="mx-3 mt-6">
 
-        <h1 class="max-w-xl mx-auto mb-10 uppercase pb-2 border-b border-site-color text-center w-full px-3">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        <h1 class="max-w-xl mx-auto mb-5 uppercase pb-2 w-full mt-20
+text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
+        {{ __('Forgot your password?') }}
        
         </h1>
         
@@ -15,7 +17,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" />
+                <x-input-label for="email" :value="__('EMAIL ADDRESS')" />
 
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
 
@@ -23,9 +25,12 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-primary-button>
+                
+                <button class="ml-4 bg-site-color uppercase py-1 px-2 
+        mt-2 rounded text-white hover:bg-green-900">
+        {{ __('Email Password Reset Link') }}
+        </button>
             </div>
         </form>
+</div>
 @endsection

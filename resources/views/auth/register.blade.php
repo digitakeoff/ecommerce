@@ -2,10 +2,13 @@
 
 
 @section('content')
-<h1 class="max-w-xl mx-auto mb-10 uppercase pb-2 border-b border-site-color text-center w-full mt-20">
+<div class="mx-3 mt-6">
+
+<h1 class="max-w-xl mx-auto mb-5 uppercase pb-2 w-full mt-20
+text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
     sign up
 </h1>
-<form method="POST" id="register" x-data="userregister" class="max-w-xl mx-auto md:px-0 px-3 mb-20" 
+<form method="POST" id="register" x-data="userregister" class="max-w-xl mx-auto md:px-0 mb-20" 
 action="{{ route('register') }}" x-on:submit.prevent="handleOnSubmit">
     @csrf
 
@@ -28,52 +31,106 @@ action="{{ route('register') }}" x-on:submit.prevent="handleOnSubmit">
     </template>
     
 
-    <div class="flex flex-col sm:flex-row mt-4">
-        <x-custom-input div_class="w-full sm:w-1/2 sm:mr-1 mr-0" label="First name" name="first_name"/>
+    <div class="flex flex-col sm:flex-row mt-3">
+        <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
+            <x-input-label for="first_name" :value="__('FIRST NAME')" />
 
-        <x-custom-input div_class="w-full sm:w-1/2 sm:ml-1 ml-0 mt-4 md:mt-0" label="Last name" name="last_name"/>
+            <x-text-input id="first_name" class="block mt- w-full py-1" type="text" 
+                x-model="first_name" required />
+        </div>
+
+
+        <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
+            <x-input-label for="last_name" :value="__('LAST NAME')" />
+
+            <x-text-input id="last_name" class="block w-full py-1" type="text" x-model="last_name" 
+                 required />
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row mt-3">
+        <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
+            <x-input-label for="phone" :value="__('PHONE NUMBER')" />
+
+            <x-text-input id="phone" class="block mt- w-full py-1" type="text" 
+                x-model="phone" required />
+        </div>
+
+        <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
+            <x-input-label for="email" :value="__('EMAIL ADDRESS')" />
+
+            <x-text-input id="email" class="block w-full py-1" type="text" x-model="email" 
+                 required />
+        </div>
+    </div>
+
+    <div class="mt-3">
+            <x-input-label for="address" :value="__('ADDRESS')" />
+
+            <x-text-input id="address" class="block w-full py-1" type="text" x-model="address" 
+                 required />
     </div>
 
     <div class="flex flex-col sm:flex-row mt-4">
-        <x-custom-input div_class="w-full sm:w-1/2 sm:mr-1 mr-0"  label="Phone number" name="phone"/>
-
-        <x-custom-input div_class="w-full sm:w-1/2 sm:ml-1 ml-0 mt-4 md:mt-0" label="Email address" name="email"/>
-    </div>
-
-    <x-custom-input  label="Address" div_class="mt-4" name="address"/>
-
-    <div x-data class="flex flex-col sm:flex-row mt-4">
-        <select x-model="state" id="state" class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
-            <option value="" x-on:click="$store.location.selectState('')">-- SELECT STATE --</option>
-            <template x-for="(state, index) in $store.location.getStates()">
-                <option x-bind:value="index" x-bind:selected="index == localStorage.getItem('state')"
-                x-on:click="$store.location.selectState(index)" x-text="state"></option>
-            </template>
-        </select>
-
-        <select x-model="city" id="city"
-            x-bind:class="!$store.location.state? 'bg-gray-200 cursor-not-allowed':''" 
-            x-bind:disabled="!$store.location.state" 
-            class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
-                <option value="">-- SELECT CITY --</option>
-                <template x-for="(city, index) in $store.location.getCities()">
-                    <option x-bind:value="city.slug" x-bind:selected="index == localStorage.getItem('city')" 
-                    x-on:click="$store.location.selectCity(city.slug)" x-text="city.name"></option>
+        <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
+            <x-input-label for="state_id" :value="__('STATE')" />
+            <select x-model="state_id" id="state_id" 
+            x-on:change="$store.location.selectState(event)" class="py-1 w-full rounded border border-gray-300">
+                <option value="">-- SELECT STATE --</option>
+                <template x-for="state in $store.location.locations">
+                    <option x-bind:value="state.id"
+                        x-text="state.name" 
+                        x-bind:selected="state.id == localStorage.getItem('state_id')" >
+                    </option>
                 </template>
+            </select>
+        </div>
+        
+        <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
+            <x-input-label for="city_id" :value="__('CITY')" />
+
+            <select x-model="city_id" id="city_id"  x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            x-bind:disabled="!$store.location.cities.length" x-on:change="$store.location.selectCity(event)" 
+            class="py-1 w-full rounded border border-gray-300">
+            <option value="">-- SELECT CITY --</option>
+            <!-- <template x-if="$store.location.cities.length"> -->
+                <template x-for="city in $store.location.cities">
+                        <option x-bind:value="city.id" 
+                        x-bind:selected="city.id == localStorage.getItem('city_id')"
+                        x-text="city.name"></option>
+                </template>
+            <!-- </template> -->
         </select>
+        </div>
+       
     </div>
     
-    <x-custom-input  type="password" label="Password" class="mt-4" name="password"/>
-    <x-custom-input  type="password" label="Confirm password" class="mt-4" name="password_confirmation"/>   
+    <div class="mt-3">
+            <x-input-label for="password" :value="__('PASSWORD')" />
+
+            <x-text-input id="password" class="block w-full py-1" type="password" x-model="password" 
+                 required />
+    </div>
+
+    <div class="mt-3">
+            <x-input-label for="password_confirmation" :value="__('CONFIRM PASSWORD')" />
+
+            <x-text-input id="password_confirmation" class="block w-full py-1" type="password" 
+            x-model="password_confirmation" 
+                 required />
+    </div>   
 
     <div class="flex items-center justify-end mt-4">
         <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
             {{ __('Already signed-up?') }}
         </a>
 
-        <x-primary-button class="ml-4">
+        <button class="ml-4 bg-site-color uppercase py-1 px-2 
+        mt-2 rounded text-white hover:bg-green-900">
             {{ __('SIGN UP') }}
-        </x-primary-button>
+        </button>
+
     </div>
 </form>
+</div>
 @endsection

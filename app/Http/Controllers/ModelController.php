@@ -59,7 +59,7 @@ class ModelController extends Controller
         
         $model = Model::create($data);
 
-        if($request->has('image') && $request->image)
+        if($request->has('image') && $request->filled('image'))
             event(new ModelCreated(get_class($model), $model->id, [$request->image]));
 
         if($request->expectsJson())

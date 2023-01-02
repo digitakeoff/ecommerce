@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html class="bg-gray-" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="bg-gray-100" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @include('layouts.head')
 
-
-    <body >
+    <body class="h-full">
         <div x-data="nav">
             <button x-on:click="triggerOpen" class="text-center w-full py-2 
             text-gray-600 bg-gray-300 block sm:hidden">
@@ -12,6 +11,8 @@
             <div x-show="open" x-on:click.outside="clickOutside" 
                 class="sm:w-1/6 w-full p-5 bg-gray-700 sm:fixed h-full">
                 <ul class="text-gray-300">
+                    <li><a href="{{ route('home') }}">Home</a> </li> 
+                    
                     <li><a href="{{ route('admin.home') }}">Dashboard</a> </li>
                     <li x-data="{ open: false }">
                         <a x-on:click="open = ! open" href="#">
@@ -19,7 +20,7 @@
                         </a>
                         <ul class="ml-3" x-show="open" x-on:click.outside="open = false">
                             <li>
-                                All cars
+                            <a href="{{route('admin.cars.index')}}">All cars</a> 
                             </li>
                             <li>
                             <a href="{{route('admin.cars.create')}}">Add car</a> 
@@ -78,7 +79,7 @@
                                 <a href="{{route('admin.users.index')}}">All Users</a> 
                             </li>
                             <li>
-                                <a href="{{route('admin.users.create')}}">Add Model</a> 
+                                <a href="{{route('admin.users.create')}}">Add User</a> 
                             </li>
                         </ul>
                     </li>
@@ -100,15 +101,15 @@
             </div>
         </div>
 
-        <main class="sm:w-5/6 w-full ml-auto bg-gray-100 h-full">
+        <main class="sm:w-5/6 w-full ml-auto h-full">
             @yield('content')
         </main>
 
-    <footer class="w-full  fixed bottom-0">
-        <p class="bg-gray-200 w-80 mx-auto text-center rounded-tl-full text-gray-600 rounded-tr-full py-1">
-            &copy;{{date('Y')}} | {{config('app.name')}}<sup>&reg;</sup>
-        </p>
-    </footer>
+        <footer class="w-full  fixed bottom-0">
+            <p class="bg-gray-300 w-80 mx-auto text-center rounded-tl-full text-gray-600 rounded-tr-full py-1">
+                &copy;{{date('Y')}} | {{config('app.name')}}<sup>&reg;</sup>
+            </p>
+        </footer>
     </body>
 
 </html>

@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\NewUserAdded;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -49,15 +51,24 @@ class UserController extends Controller
             'password' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255']
         ]);
+
+        if(!$request->has('state_id') && !$request->filled('state_id')){
+            $request->validate([
+                'state' => ['required', 'string', 'max:255'],
+            ]);
+        }
+        if(!$request->has('city_id') && !$request->filled('city_id')){
+            $request->validate([
+                'city' => ['required', 'string', 'max:255'],
+            ]);
+        }
         $slug = Str::slug(Str::title($request->first_name.' '.$request->last_name), '-');
         $slug_exist = User::where('slug', '=', $slug)->get();
         $slug = count($slug_exist)? $slug. '-' .count($slug_exist) + 1 : $slug;
         
         $data = [];
-        $props = (new User)->props;
+        $props = (new User)->getFillables();
 
         foreach($props as $prop)
             $data[$prop] = $request->input($prop);
@@ -65,9 +76,13 @@ class UserController extends Controller
         $data['last_name'] = Str::title($request->last_name); 
         $data['slug'] = $slug; 
         $data['password'] = Hash::make($request->password); 
-
+        // $data['token'] = Str::random(60);
         
         $user = User::create($data);
+
+        Mail::to($user)->send(new NewUserAdded($user, $token=Str::random(60)));
+
+        // $user->sendPasswordResetNotification(Str::random(60));
 
         if($request->expectsJson())
             return response()->json(['data'=>'user added']);

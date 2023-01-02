@@ -11,7 +11,7 @@ class Make extends Eloquent
 
     // protected $table = 'makes';
     
-    protected $with = ['models', 'image'];
+    protected $with = ['models', 'images'];
 
     protected $fillable = [
         'name', 'slug'
@@ -31,7 +31,7 @@ class Make extends Eloquent
         return $this->hasMany(Car::class);
     }
 
-    public function image()
+    public function images()
     {
         return $this->morphOne(Image::class, 'imageable');
     }

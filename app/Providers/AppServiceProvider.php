@@ -32,7 +32,12 @@ class AppServiceProvider extends ServiceProvider
     {
         View::share('makes', Make::all());
         View::share('bodies', Bodytype::all());
-        View::share('latestcars', Car::latest()->limit(5)->get());
+        View::share('carousels', Car::latest()->limit(5)->get());
         Schema::defaultStringLength(191);
+
+
+        // Mail::extend('sendgrid', function (array $config = []) {
+        //     return new MailchimpTransport();
+        // })
     }
 }

@@ -5,8 +5,8 @@ export default () => ({
     role:'',
     slug:'',
     phone:'',
-    state:'',
-    city:'',
+    state_id:'',
+    city_id:'',
     address:'',
     password:'',
     
@@ -35,7 +35,6 @@ export default () => ({
         })
     },
 
-
     onchange(e){
         const data = JSON.parse(localStorage.getItem('data'))||{}
         data[e.target.getAttribute('x-model')] = e.target.value
@@ -46,7 +45,6 @@ export default () => ({
 
     handleOnSubmit(){
         var ap = this
-        const data = JSON.parse(localStorage.getItem('data'))||{}
 
         const els = document.querySelectorAll('[x-model]')
         Array.from(els).forEach(el => {
@@ -55,24 +53,20 @@ export default () => ({
             }
         });
 
-        // const els = document.querySelectorAll('[x-model]')
-        // Array.from(els).forEach(el => {
-        //     el.addEventListener('change', ap.onchange)
-        // })
-
-       
-        
         const formData = new FormData
-        for (let key in data){
-            formData.append(key, data[key])
-        }
+        Array.from(els).forEach(el => {
+            formData.append(el.getAttribute('x-model'),  document.querySelector('[x-model='+el.getAttribute('x-model')).value)
+        })
+        formData.append('state', document.querySelector('[x-model=state_id').value)
+        formData.append('city', document.querySelector('[x-model=city_id').value)
 
         window.axios.post('/users', formData).then(({data}) => {
-            localStorage.removeItem('state')
-            localStorage.removeItem('city')
-            localStorage.removeItem('data')
+            console.log(data)
+            localStorage.clear()
         }).catch((error) => {
+            console.log(error)
             ap.errors = error.response.data.errors
+
         })
     }
 

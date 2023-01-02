@@ -1,4 +1,4 @@
-export default () => ({
+export default {
     make_id: '',
     model_id: '',
 
@@ -6,29 +6,31 @@ export default () => ({
     models:[],
     
     init() {
-        // window.axios.get('/makes/1').then(({data}) => {
-        //     this.makes = data
-        //     console.log(data)
-        // })
-        
+
+        window.axios.get('/makes').then(({data}) => {
+            this.makes = data
+        })
+
         this.make_id = localStorage.getItem('make_id')
-        this.model_id = localStorage.getItem('model_id')
+        this.make_slug = localStorage.getItem('make_slug')
+
+        if(this.make_id){
+            window.axios.get('/makes/'+this.make_slug).then(({data}) => {
+                this.models = data.models
+            })
+        }
     },
 
     selectMake(e){
         this.make_id = e.target.value
         localStorage.setItem('make_id', e.target.value)
-        console.log(e.target.value)
-        // if(this.make_id){
-            window.axios.get('/makes/'+e.target.value).then(({data}) => {
-                this.models = data.models
-                console.log(data.models)
-            })
-        // }
+        const selectedmake = this.makes.find(make => make.id == e.target.value)
+        this.models = (selectedmake != undefined) ? selectedmake.models:[]
+        console.log(selectedmake)
     },
 
     selectModel(e){
         this.model_id = e.target.value
         localStorage.setItem('model_id', e.target.value)
     }
-})
+}

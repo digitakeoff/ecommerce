@@ -1,12 +1,10 @@
 export default () => ({
-    name:'',
     price:'',
     make_id:'',
     fuel_type:'',
     model_id:'',
     year:'',
     vin:'',
-    vehicle_drive:'',
     ext_color:'',
     int_color:'',
     transmission:'',
@@ -18,66 +16,38 @@ export default () => ({
     state_id: '',
     city_id: '',
     address: '',
+    doors: '',
+    seats: '',
+    speed: '',
+    airbags: '',
 
     
     errors: null,
-    body_types:[],
-    makes:[],
     images:[],
-    models:[],
 
     init(){
-        this.images = JSON.parse(localStorage.getItem('images')) || []
         this.image_index = JSON.parse(localStorage.getItem('imgIndex'))
 
-        window.axios.get('/bodytypes').then(({data}) => {
-            this.body_types = data
-        })
+        // localStorage.removeItem('data')
 
-        window.axios.get('/makes').then(({data}) => {
-            this.makes = data
-        })
-
-        window.axios.get('/models').then(({data}) => {
-            this.models = data
-        })
-
-        const data = JSON.parse(localStorage.getItem('data')) || {}
+        const data = JSON.parse(localStorage.getItem('data'))||{}
         for(let key in data){
             this[key] = data[key]
         }
         
         const els = document.querySelectorAll('[x-model]')
         var ap = this
-        // Array.from(els).forEach(el => {
-        //     el.addEventListener('focus', function(e){
-        //         e.target.classList.remove('border-red-500')
-        //         ap.errors = null
-        //     })
-        // })
 
         Array.from(els).forEach(el => {
             el.addEventListener('change', ap.onchange)
         })
-    },
 
-    getModelOfMake(){
-        if(this.models.length){
-            var ap = this
-            return this.models.filter(model => model.make_id == ap.make)
-        }
-    }, 
+    },
 
     onchange(e){
         const data = JSON.parse(localStorage.getItem('data'))||{}
-
-        if(typeof JSON.parse(e.target.value)  == 'object'){
-            data[e.target.getAttribute('x-model')] = (JSON.parse(e.target.value)).id
-            localStorage.setItem(e.target.getAttribute('x-model'), (JSON.parse(e.target.value)).id)
-        } else {
-            data[e.target.getAttribute('x-model')] = e.target.value
-            localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
-        }
+        data[e.target.getAttribute('x-model')] = e.target.value
+        localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
         localStorage.setItem('data', JSON.stringify(data))
         console.log(data)
     },
@@ -93,7 +63,7 @@ export default () => ({
             }
         });
 
-        if(import.meta.env.VITE_APP_ENV == 'production')
+        if(window.tinymce)
             var description = window.tinymce.get('description').getContent()
 
         if(import.meta.env.VITE_APP_ENV == 'local')
@@ -103,17 +73,27 @@ export default () => ({
         for (let key in data){
             formData.append(key, data[key])
         }
+        
+        formData.append('state', this.state_id)
+        formData.append('city', this.city_id)
+        formData.append('bodytype', this.bodytype_id)
+        formData.append('make', this.make_id)
+        formData.append('model', this.model_id)
 
-        const image_paths = this.images.map((image) => {
-            return image.path
-        })
+        const images = JSON.parse(localStorage.getItem('images'))
+        if(images.length){
+            const image_paths = images.map(image => image.path)
+            formData.append('images', JSON.stringify(image_paths))
+        }
 
-        formData.append('images', JSON.stringify(image_paths))
         formData.append('description', description)
         formData.append('main_image_index', this.image_index)
 
         window.axios.post('/cars', formData).then(({data}) => {
             console.log(data)
+            localStorage.removeItem('images')
+            localStorage.removeItem('data')
+            location.reload()
         }).catch((error) => {
             ap.errors = error.response.data.errors
         })

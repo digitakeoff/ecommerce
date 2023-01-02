@@ -3,14 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    // protected $with = ['meta'];
 
     /**
      * The attributes that are mass assignable.
@@ -27,21 +32,17 @@ class User extends Authenticatable
         'state',
         'city',
         'address',
-        'password',
+        'password'
     ];
 
-    public $props = [
-        'first_name',
-        'last_name',
-        'email',
-        'role',
-        'slug',
-        'phone',
-        'state',
-        'city',
-        'address',
-        'password',
-    ];
+    public function getFillables(){
+        return $this->fillable;
+    }
+
+    public function meta()
+    {
+        return $this->morphMany(Meta::class, 'metable');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,5 +73,19 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    // protected function password(): Attribute
+    // {
+    //     return Attribute::make(
+    //         set: fn ($value) => Hash::make($value),
+    //     );
+    // }
+
+    protected function firstName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Str::title($value),
+        );
     }
 }

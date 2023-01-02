@@ -1,8 +1,9 @@
 <form x-data="carcreate" enctype='multipart/form-data' method="post" id="carcreate"
-class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
-    <h1 class="text-center bg-gray-200 text-gray-500 
-            font-bold uppercase my-5 border-b-2 py-2 border-site-color">
-        Sell car
+        x-on:submit.prevent="handleOnSubmit" class="mx-2 sm:mx-4 py-2 mb-20">
+
+    <h1 class="mb-5 uppercase pb-2 w-full text-center bg-gray-200 text-gray-500 
+    font-bold border-b-2 py-2 border-site-color">
+        {{__('Sell car')}}
     </h1>
 
     <template x-if="errors != null">
@@ -40,7 +41,7 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             </template>
 
             <p class="py-0 top-0 right-0 w-40 left-0 rounded-bl text-gray-500 rounded-br mx-auto border-l 
-                border-r border-b border-gray-400 text-center absolute">
+                border-r border-b border-gray-300 text-center absolute">
                 Photo
             </p>
 
@@ -59,15 +60,16 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         x-model="address" x-model="address"  required />
     </div>
 
-    <div x-data="location" class="flex flex-col sm:flex-row mt-4">
+    <div class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="state_id" :value="__('STATE')" />
             <select x-model="state_id" id="state_id" 
-            x-on:change="selectState" class="py-1 w-full rounded border border-gray-300">
+            x-on:change="$store.location.selectState(event)" class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
-                <template x-for="state in locations">
-                    <option x-bind:value="JSON.stringify(state)"
-                        x-text="state.name"  >
+                <template x-for="state in $store.location.locations">
+                    <option x-bind:value="state.id"
+                        x-text="state.name" 
+                        x-bind:selected="state.id == localStorage.getItem('state_id')" >
                     </option>
                 </template>
             </select>
@@ -76,11 +78,12 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
             <x-input-label for="city_id" :value="__('CITY')" />
 
-            <select x-model="city_id" id="city_id" x-on:change="selectCity" 
+            <select x-model="city_id" id="city_id"  x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            x-bind:disabled="!$store.location.cities.length" x-on:change="$store.location.selectCity(event)" 
             class="py-1 w-full rounded border border-gray-300">
             <option value="">-- SELECT CITY --</option>
             <!-- <template x-if="$store.location.cities.length"> -->
-                <template x-for="city in cities">
+                <template x-for="city in $store.location.cities">
                         <option x-bind:value="city.id" 
                         x-bind:selected="city.id == localStorage.getItem('city_id')"
                         x-text="city.name"></option>
@@ -99,13 +102,13 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
     </div>
 
-    <div x-data="makemodel" class="flex flex-col sm:flex-row mt-4">
+    <div class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="make_id" :value="__('MAKE')" />
-            <select x-model="make_id" id="make_id" x-on:change="selectMake" 
-            class="py-1 w-full rounded border border-gray-300">
+            <select x-model="make_id" id="make_id" x-on:change="$store.makemodel.selectMake(event)" 
+             class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT MAKE --</option>
-                <template x-for="make in makes">
+                <template x-for="make in $store.makemodel.makes">
                     <option x-bind:value="make.id"  
                     x-bind:selected="make.id == localStorage.getItem('make_id')"
                     x-text="make.name"></option>
@@ -113,23 +116,24 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             </select>
         </div>
 
-        <div class="py-1 w-full rounded sm:mt-0 mt-3 sm:ml-1 ml-0 sm:w-1/2">
+        <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
             <x-input-label for="model_id" :value="__('MODEL')" />
-            <select x-model="model_id" id="model_id" x-on:change="selectModel" x-bind:class="!models.length ? 'bg-gray-200 cursor-not-allowed':''" 
-            x-bind:disabled="!models.length"  class="py-1 w-full rounded border border-gray-300">
+            <select x-model="model_id" id="model_id" x-on:change="$store.makemodel.selectModel(event)" 
+            x-bind:class="!$store.makemodel.models.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            x-bind:disabled="!$store.makemodel.models.length"  class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT MODEL --</option>
                 <!-- <template x-if="make_id && models.length"> -->
-                    <template x-for="model in models">
-                    <option x-bind:value="model.id" 
-                    x-bind:selected="model.id == localStorage.getItem('model_id')"
-                    x-text="model.name"></option>
+                    <template x-for="model in $store.makemodel.models">
+                        <option x-bind:value="model.id" 
+                        x-bind:selected="model.id == localStorage.getItem('model_id')"
+                        x-text="model.name"></option>
                     </template>
-                <!-- </template> -->
+                </template>
             </select>
         </div>
     </div>
 
-    <div class="flex flex-col sm:flex-row mt-3">
+    <div class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="ext_color" :value="__('EXTERIOR COLOR')" />
 
@@ -201,9 +205,9 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         </select>
     </div>
 
-    <div class="flex flex-col sm:flex-row mt-4">
+
         
-        <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
+        <div class="mt-4 w-full">
             <x-input-label for="fuel_type" :value="__('FUEL TYPE')" />
             
             <select x-model="fuel_type" id="fuel_type" 
@@ -215,14 +219,8 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             </select>
         </div>
             
-        <div class="py-1 w-full rounded sm:ml-1 ml-0 sm:mt-0 mt-4 sm:w-1/2">
-            <x-input-label for="vehicle_drive" :value="__('VEHICLE DRIVE')" />
-
-            <x-text-input id="vehicle_drive" class="block w-full py-1" type="text" 
-             x-model="vehicle_drive" required />
-
-        </div>
-    </div>
+        
+   
 
     
     <div class="flex mt-4 sm:flex-row flex-col">
@@ -239,15 +237,42 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
         
         <div class="py-1 w-full rounded sm:ml-1 ml-0 sm:mt-0 mt-4 sm:w-1/2">
             <x-input-label for="bodytype_id" :value="__('BODY TYPE')" />
-            <select x-model="bodytype_id" id="bodytype_id"
+            <select x-model="bodytype_id" id="bodytype_id" x-on:change="$store.bodyindex.selectBodies(event)"
                 class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT BODY TYPE --</option>
-                <template x-for="body in body_types">
+                <template x-for="body in $store.bodyindex.bodies">
                     <option x-bind:value="body.id"
                     x-bind:selected="body.id == localStorage.getItem('bodytype_id')"
                     x-text="body.name"></option>
                 </template>
             </select>
+        </div>
+    </div>
+
+    <div class="flex mt-4 sm:flex-row flex-col">
+        <div class="py-1 w-full rounded sm:mr-2 mr-0 sm:mt-0 mt-4 sm:w-1/4">
+            <x-input-label for="airbags" :value="__('AIRBAGS')" />
+            <x-text-input id="airbags" class="block w-full py-1" type="text" 
+             x-model="airbags" required />
+        </div>
+        
+        
+        <div class="py-1 w-full rounded sm:mr-2 mr-0 sm:mt-0 mt-4 sm:w-1/4">
+            <x-input-label for="DOORS" :value="__('DOORS')" />
+            <x-text-input id="doors" class="block w-full py-1" type="text" 
+             x-model="doors" required />
+        </div>
+
+        <div class="py-1 w-full rounded sm:mr-2 mr-0 sm:mt-0 mt-4 sm:w-1/4">
+            <x-input-label for="seats" :value="__('SEATS')" />
+            <x-text-input id="seats" class="block w-full py-1" type="text" 
+             x-model="seats" required />
+        </div>
+
+        <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:w-1/4">
+            <x-input-label for="speed" :value="__('SPEED')" />
+            <x-text-input id="speed" class="block w-full py-1" type="text" 
+             x-model="speed" required />
         </div>
     </div>
 
@@ -258,8 +283,8 @@ class="mx-auto  sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
             placeholder="Description" class="w-full py-1 rounded border border-gray-300"></textarea>
     </div>
         
-
     <button class="bg-site-color uppercase w-full py-2 mt-2 rounded text-white hover:bg-green-900">
         Submit
     </button>
 </form>
+

@@ -30,7 +30,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
                 <img  class="rounded border h-20 w-20" x-bind:src="images[images.length-1].url">
             </template>
             <template x-if="!images.length">
-                <img  class="rounded border h-20 w-20" x-bind:src="'/storage/bodytypes/'+image">
+                <img  class="rounded border h-20 w-20" x-bind:src="body.images.src">
             </template>
             
             <p style="top:0px;right:0;left:0;width:300px" 

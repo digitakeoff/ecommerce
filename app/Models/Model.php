@@ -9,7 +9,7 @@ class Model extends Eloquent
 {
     use HasFactory;
 
-    protected $with = ['image'];
+    protected $with = ['images'];
 
     protected $fillable = [
         'name', 'slug', 'make_id', 'image'
@@ -29,7 +29,7 @@ class Model extends Eloquent
         'created_at', 'updated_at'
     ];
 
-    public function image()
+    public function images()
     {
         return $this->morphOne(Image::class, 'imageable');
     }

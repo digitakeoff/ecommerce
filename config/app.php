@@ -82,6 +82,8 @@ return [
     |
     */
 
+    'currency'=>'&#x20A6;',
+
     'locale' => 'en',
 
     /*

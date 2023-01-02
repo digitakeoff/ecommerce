@@ -2,8 +2,9 @@
 
 
 @section('content')
-
-        <h1 class="max-w-xl mx-auto mb-10 uppercase pb-2 border-b border-site-color text-center w-full px-3">
+<div class="w-5/12 mx-auto">
+        <h1 class="max-w-xl mx-auto mb-5 uppercase pb-2 w-full mt-20
+        text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
             Reset password
         </h1>
 
@@ -15,7 +16,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" />
+                <x-input-label for="email" :value="__('Email Address')" />
 
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
 
@@ -48,4 +49,5 @@
                 </x-primary-button>
             </div>
         </form>
+</div>
 @endsection

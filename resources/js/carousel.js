@@ -2,59 +2,14 @@ export default () => ({
    
     selected: 0,
 
-    products: [
-        {
-            image: 'nissan1-640x480.jpg',
-            name:'2012 Nissan 370Z',
-            amount:'$30,998',
-            mileage:'15000',
-            condition: 'Brand New',
-            location:'Ikeja, Lagos',
-        },
-
-        {
-            image: 'honda-accord-896x436.jpg',
-            name:'2012 Honda Accord',
-            amount:'$28,555',
-            mileage:'95 Miles',
-            condition: 'Foreign used',
-            location:'Yaba, Lagos',
-        },
-
-        {
-            image: 'mdx5-1-640x480.jpg',
-            name:'2014 Mercedez Benz SL-550',
-            amount:'$81,197',
-            mileage:'113 Miles',
-            condition: 'Nigeria used',
-            location:'Yaba, Lagos',
-        },
-
-        {
-            image: 'mercedes1-1-640x480.jpg',
-            name:'2014 Mercedez Benz SL-550',
-            amount:'$81,197',
-            mileage:'113 Miles',
-            condition: 'Brand New',
-
-            location:'Yaba, Lagos',
-        },
-
-        {
-            image: 'porsche1-1-896x436.jpg',
-            name:'2014 Mercedez Benz SL-550',
-            amount:'$64,540',
-            
-            condition: 'Nigeria used',
-            mileage:'4400 Miless',
-            location:'Yaba, Lagos',
-        }
-        
-    ],
+    products: [],
     carouse: null,
 
     init(){
         
+        window.axios.get('/latests').then(({data}) => {
+            this.products = data
+        })
         var ap = this
 
         function carouseFun(){
@@ -66,7 +21,7 @@ export default () => ({
                     ap.selected = 0
             }
         }
-        console.log(this.$store.location.states)
+        // console.log(this.$store.location.states)
         this.carouse = setInterval(carouseFun, 1500)
 
         if(this.$refs.img){

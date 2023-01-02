@@ -6,6 +6,7 @@ export default () => ({
     address:'',
     state:'',
     city:'',
+    // company_name:'',
     password:'',
     password_confirmation:'',
 
@@ -20,65 +21,74 @@ export default () => ({
         this.email = localStorage.getItem('email')
         this.address = localStorage.getItem('address')
 
-        const inputs = document.querySelectorAll('#register input')
-        const selects = document.querySelectorAll('#register select')
-        var ap = this
-        Array.from(inputs).forEach(el => {
-            el.addEventListener('focus', function(e){
-                e.target.classList.remove('border-red-500')
-                ap.errors = null
-            })
-        });
-        Array.from(selects).forEach(el => {
-            el.addEventListener('focus', function(e){
-                e.target.classList.remove('border-red-500')
-                ap.errors = null
-            })
-        });
-        Array.from(inputs).forEach(el => {
-            el.addEventListener('change', ap.onchange)
-        });
+        
+        // const data = JSON.parse(localStorage.getItem('data')) || []
+        // for(let key in data){
+        //     this.${key} = data[key]
+        // }
 
-        Array.from(selects).forEach(el => {
+        const els = document.querySelectorAll('[x-model]')
+        var ap = this
+
+        Array.from(els).forEach(el => {
             el.addEventListener('change', ap.onchange)
+        })
+
+        Array.from(els).forEach(el => {
+            el.addEventListener('focus', function(e){
+                e.target.classList.remove('border-red-500')
+                ap.errors = null
+            })
         });
     },
 
     onchange(e){
-        localStorage.setItem(e.target.id, e.target.value)
-        console.log(e.target.value)
+        const data = JSON.parse(localStorage.getItem('data'))||{}
+        data[e.target.getAttribute('x-model')] = e.target.value
+        localStorage.setItem(e.target.getAttribute('x-model'), e.target.value)
+        localStorage.setItem('data', JSON.stringify(data))
+        console.log(data)
     },
 
     handleOnSubmit(){
-        const inputs = document.querySelectorAll('#register input')
-        const selects = document.querySelectorAll('#register select')
-        Array.from(inputs).forEach(el => {
-            if(!el.value){
-                el.classList.add('border-red-500')
-                // el.placeholder = 
-            }
-        });
-        Array.from(selects).forEach(el => {
-            if(!el.value){
-                el.classList.add('border-red-500')
-            }
+        const els = document.querySelectorAll('[x-model]')
+
+        var ap = this
+
+        Array.from(els).forEach(el => {
+            el.addEventListener('focus', function(e){
+                e.target.classList.remove('border-red-500')
+                ap.errors = null
+            })
         });
 
+        const data = JSON.parse(localStorage.getItem('data'))||[]
         const formData = new FormData
-        formData.append('first_name', this.first_name)
-        formData.append('last_name', this.last_name)
-        formData.append('email', this.email)
-        formData.append('phone', this.phone)
-        formData.append('address', this.address)
-        formData.append('state', this.state)
-        formData.append('city', this.city)
-        formData.append('password', this.password)
-        formData.append('password_confirmation', this.password_confirmation)
+        for(let key in data){
+            formData.append(key, data[key])
+        }
+        formData.append('state', data.state_id)
+        formData.append('city', data.city_id)
+
+        console.log(data)
+        // formData.append('first_name', this.first_name)
+        // formData.append('last_name', this.last_name)
+        // formData.append('email', this.email)
+        // formData.append('phone', this.phone)
+        // formData.append('address', this.address)
+        // formData.append('state', this.state)
+        // formData.append('city', this.city)
+        // formData.append('password', this.password)
+        // formData.append('password_confirmation', this.password_confirmation)
 
         var ap = this
         window.axios.post('/signup', formData).then(({data}) => {
             console.log(data)
+            localStorage.removeItem('data')
+            localStorage.removeItem('images')
+            location.reload()
         }).catch(function (error) {
+            localStorage.removeItem('images')
             ap.errors = error.response.data.errors;
         })
     }

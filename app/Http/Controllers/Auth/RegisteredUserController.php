@@ -49,18 +49,27 @@ class RegisteredUserController extends Controller
         $slug_exist = User::where('slug', '=', $slug)->get();
         $slug = count($slug_exist)? $slug. '-' .count($slug_exist) + 1 : $slug;
         
-        $user = User::create([
-            'first_name' => Str::title($request->first_name),
-            'last_name' => Str::title($request->last_name),
-            'phone' => $request->phone,
-            'city' => $request->city,
-            'slug' => $slug,
-            'address' => Str::title($request->address),
-            'state' => $request->state,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $props = (new User)->getFillables();
 
+        $data = [];
+        foreach($props as $prop)
+            $data[$prop] = $request->input($prop);
+        $data['slug'] = $slug;
+        $data['role'] = 'customer';
+
+        $user = User::create($data);
+
+        // [
+        //     'first_name' => Str::title($request->first_name),
+        //     'last_name' => Str::title($request->last_name),
+        //     'phone' => $request->phone,
+        //     'city' => $request->city,
+        //     'slug' => $slug,
+        //     'address' => Str::title($request->address),
+        //     'state' => $request->state,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]
         event(new Registered($user));
 
         Auth::login($user);

@@ -14,7 +14,7 @@
         @foreach($bodies as $body)
             <tr class="border-b border-gray-300">
                 <td>
-                <img class="w-10 h-10" src="{{($body->image != null)?asset($body->image->src):''}}" alt="{{$body->name}}">
+                <img class="w-10 h-10" src="{{($body->images != null)?asset($body->images->src):''}}" alt="{{$body->name}}">
                 </td>
                 <td>
                     <a href="{{route('bodytypes.index')}}">
