@@ -65,7 +65,9 @@
     
     <div class="flex sm:flex-row flex-col p-2">
         @foreach($latestcars as $car)
-            <x-car-card :car="$car"/>
+            <div class="md:w-1/6">
+                <x-car-card :car="$car"/>
+            </div>
         @endforeach
     </div>
 </main>

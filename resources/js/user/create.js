@@ -23,12 +23,6 @@ export default () => ({
         
         const els = document.querySelectorAll('[x-model]')
         var ap = this
-        // Array.from(els).forEach(el => {
-        //     el.addEventListener('focus', function(e){
-        //         e.target.classList.remove('border-red-500')
-        //         ap.errors = null
-        //     })
-        // })
 
         Array.from(els).forEach(el => {
             el.addEventListener('change', ap.onchange)
@@ -57,17 +51,12 @@ export default () => ({
         Array.from(els).forEach(el => {
             formData.append(el.getAttribute('x-model'),  document.querySelector('[x-model='+el.getAttribute('x-model')).value)
         })
-        formData.append('state', document.querySelector('[x-model=state_id').value)
-        formData.append('city', document.querySelector('[x-model=city_id').value)
 
         window.axios.post('/users', formData).then(({data}) => {
             console.log(data)
             localStorage.clear()
         }).catch((error) => {
-            console.log(error)
             ap.errors = error.response.data.errors
-
         })
     }
-
 })

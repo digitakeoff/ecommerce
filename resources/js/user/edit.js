@@ -5,8 +5,8 @@ export default () => ({
     role:'',
     slug:'',
     phone:'',
-    state:'',
-    city:'',
+    state_id:'',
+    city_id:'',
     address:'',
     password:'',
     
@@ -27,14 +27,13 @@ export default () => ({
         const els = document.querySelectorAll('[x-model]')
         const formData = new FormData
         formData.append('_method', 'PUT')
-        
+      
         Array.from(els).forEach(el => {
-            // console.log(`${el.getAttribute('x-model')}:${el.value}`)
-            formData.append(el.getAttribute('x-model'), el.value)
+            formData.append(el.getAttribute('x-model'),  document.querySelector('[x-model='+el.getAttribute('x-model')+']').value)
         })
+        
         window.axios.post('/users/'+user.slug, formData).then(({data}) => {
-            window.localStorage.removeItem('state')
-            window.localStorage.removeItem('city')
+            localStorage.clear()
             window.location.reload()
         }).catch((error) => {
             ap.errors = error.response.data.errors

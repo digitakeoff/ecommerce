@@ -6,8 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Mail\NewUserAdded;
-use Illuminate\Support\Facades\Mail;
+use App\Events\NewUserAdded;
 
 class UserController extends Controller
 {
@@ -53,12 +52,12 @@ class UserController extends Controller
             'address' => ['required', 'string', 'max:255'],
         ]);
 
-        if(!$request->has('state_id') && !$request->filled('state_id')){
+        if(!$request->filled('state_id')){
             $request->validate([
                 'state' => ['required', 'string', 'max:255'],
             ]);
         }
-        if(!$request->has('city_id') && !$request->filled('city_id')){
+        if(!$request->filled('city_id')){
             $request->validate([
                 'city' => ['required', 'string', 'max:255'],
             ]);
@@ -72,17 +71,12 @@ class UserController extends Controller
 
         foreach($props as $prop)
             $data[$prop] = $request->input($prop);
-        $data['first_name'] = Str::title($request->first_name); 
-        $data['last_name'] = Str::title($request->last_name); 
         $data['slug'] = $slug; 
         $data['password'] = Hash::make($request->password); 
-        // $data['token'] = Str::random(60);
         
         $user = User::create($data);
 
-        Mail::to($user)->send(new NewUserAdded($user, $token=Str::random(60)));
-
-        // $user->sendPasswordResetNotification(Str::random(60));
+        event(new NewUserAdded($user, $token=Str::random(60)));
 
         if($request->expectsJson())
             return response()->json(['data'=>'user added']);
@@ -121,31 +115,19 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255']
-        ]);
-        
         $data = [];
-        $props = (new User)->props;
 
-        foreach($props as $prop)
-            $data[$prop] = $request->input($prop);
-        $data['first_name'] = Str::title($request->first_name); 
-        $data['last_name'] = Str::title($request->last_name); 
-        $data['slug'] = $user->slug; 
-        if($request->password != '')
-            $data['password'] = Hash::make($request->password);
-        else
-            $data['password'] = $user->password;
+        $props = (new User)->getFillables();
 
-        $user->update($data);
+        foreach($props as $prop){
+            if($request->has($prop) && $request->filled($prop)){
+                $user->fill([$prop => $request->input($prop)]);
+            }
+        }
+
+        if($request->has('password') && $request->filled('password')){
+            $user->fill(['password' => Hash::make($request->password)]);
+        }
 
         if($request->expectsJson())
             return response()->json(['data' => 'user edited']);

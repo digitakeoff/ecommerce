@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // BodyTypeseeder::class,
             // MakeSeeder::class,
-            LocationSeeder::class
+            LocationSeeder::class,
+            AdminDataSeeder::class
+
         ]);
     }
 }

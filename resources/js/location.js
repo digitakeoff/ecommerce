@@ -11,22 +11,26 @@ export default {
             this.locations = data
         })
  
-        if(this.state_id != undefined && this.state_id != 'undefined'){
-            window.axios.get('/states/'+this.state_id).then(({data}) => {
-                this.cities = data.cities
-            })
-        }
+        // if(this.state_id){
+        //     window.axios.get('/states/'+this.state_id).then(({data}) => {
+        //         this.cities = data.cities
+        //     })
+        // }
     },
 
 
     selectState(e){
-        const state = JSON.parse(e.target.value)
-        this.state_id = state.id
-        localStorage.setItem('state_id', this.state_id)
+        var ap = this
+        this.state_id = e.target.value
+        
+        localStorage.setItem('state_id', e.target.value)
 
-        const selectedState = this.locations.find(state => state.id == e.target.value)
-
-        this.cities = (selectedState != undefined) ? selectedState.cities:[]
+        if(e.target.value){
+            window.axios.get('/states/'+e.target.value).then(({data}) => {
+                ap.cities = data.cities
+                console.log(ap.cities)
+            })
+        }
     },
 
     selectCity(e){

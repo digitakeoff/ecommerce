@@ -92,7 +92,7 @@ Route::post('/fileupload', function (Request $request) {
 
 require __DIR__.'/auth.php';
 
-Route::name('admin.')->prefix('admin')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('admin.home');
     })->name('home');

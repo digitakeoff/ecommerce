@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Events\ModelCreated;
 use App\Listeners\ProcessModelImageOnCreated;
+use App\Events\NewUserAdded;
+use App\Listeners\SendMailToUser;
 // use App\Models\Make;
 // use App\Observers\MakeObserver;
 
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        NewUserAdded::class => [
+            SendMailToUser::class,
         ],
         ModelCreated::class => [
             ProcessModelImageOnCreated::class,

@@ -63,12 +63,12 @@ class Car extends Eloquent
 
     public function state()
     {
-        return $this->belongsTo(State::class, 'state_id');
+        return $this->belongsTo(State::class);
     }
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(City::class);
     }
 
     protected function extColor(): Attribute

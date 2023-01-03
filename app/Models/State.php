@@ -11,7 +11,7 @@ class State extends Model
 
     public $timestamps = false;
 
-    protected $with = ['cities'];
+    // protected $with = ['cities'];
 
     protected $fillable = [
         'name', 'slug'

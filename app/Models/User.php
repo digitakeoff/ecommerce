@@ -15,7 +15,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // protected $with = ['meta'];
+    protected $with = ['state', 'city'];
 
     /**
      * The attributes that are mass assignable.
@@ -25,12 +25,13 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'company',
         'email',
         'role',
         'slug',
         'phone',
-        'state',
-        'city',
+        'state_id',
+        'city_id',
         'address',
         'password'
     ];
@@ -85,6 +86,25 @@ class User extends Authenticatable
     protected function firstName(): Attribute
     {
         return Attribute::make(
+            set: fn ($value) => Str::title($value),
+            get: fn ($value) => Str::title($value),
+        );
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    protected function lastName(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => Str::title($value),
             get: fn ($value) => Str::title($value),
         );
     }

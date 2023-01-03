@@ -26,10 +26,10 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
     </div>
 
     @csrf
-    <div class="flex flex-col sm:flex-row mt-4">
+    <div x-data class="flex flex-col sm:flex-row mt-4">
         <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
             <x-input-label for="state" :value="__('STATE')" />
-            <select x-model="state_id" id="state_id" 
+            <select x-model="state_id" id="state" 
             x-on:change="$store.location.selectState(event)" 
             class="py-1 w-full rounded border border-gray-300">
                 <option value="">-- SELECT STATE --</option>
@@ -43,19 +43,19 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
         </div>
         
         <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
-            <x-input-label for="city_id" :value="__('CITY')" />
+            <x-input-label for="city" :value="__('CITY')" />
 
-            <select x-model="city_id" id="city_id"  x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
+            <select x-model="city_id" id="city"  x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
             x-bind:disabled="!$store.location.cities.length" x-on:change="$store.location.selectCity(event)" 
             class="py-1 w-full rounded border border-gray-300">
             <option value="">-- SELECT CITY --</option>
-            <!-- <template x-if="$store.location.cities.length"> -->
+            <template x-if="$store.location.cities.length">
                 <template x-for="city in $store.location.cities">
                         <option x-bind:value="city.id" 
                         x-bind:selected="city.id == localStorage.getItem('city_id')"
                         x-text="city.name"></option>
                 </template>
-            <!-- </template> -->
+            </template>
         </select>
         </div>
        
