@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/cardekco/public_html/
-    - cp -rn public/* $DEPLOYPATH
+    - /bin/cp -rn public/* $DEPLOYPATH
     
