@@ -30,9 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::share('makes', Make::all());
-        View::share('bodies', Bodytype::all());
-        View::share('carousels', Car::latest()->limit(5)->get());
+        if (!app()->runningInConsole()) {
+            View::share('makes', Make::all());
+            View::share('bodies', Bodytype::all());
+            View::share('carousels', Car::latest()->limit(5)->get());
+        }
         Schema::defaultStringLength(191);
 
 
