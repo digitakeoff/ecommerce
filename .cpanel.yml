@@ -2,6 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/cardekco/public_html/
-    - /bin/cp -rn public/* $DEPLOYPATH
-    - /bin/composer install
-    - /bin/php artisan migrate --force --seed
+    - cp -rn public/* $DEPLOYPATH
+    - composer install
+    - php artisan migrate --force --seed
