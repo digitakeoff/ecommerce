@@ -3,4 +3,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/cardekco/public_html/
     - /bin/cp -rn public/* $DEPLOYPATH
-    - /bin/composer install
+    - /opt/cpanel/composer/bin/composer install
