@@ -4,7 +4,6 @@
 /public/storage
 /public/body_type
 /public/make
-/public/dev
 /storage/*.key
 /vendor
 .env
