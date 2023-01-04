@@ -4,3 +4,4 @@ deployment:
     - export DEPLOYPATH=/home/cardekco/public_html/
     - /bin/cp -rn public/* $DEPLOYPATH
     - /opt/cpanel/composer/bin/composer install
+    - /usr/bin/php artisan migrate --force --seed
