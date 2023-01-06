@@ -43,7 +43,7 @@ class ModelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => ['required', 'string', 'unique:Models', 'max:255'],
+            'name'  => ['required', 'string', 'unique:models', 'max:255'],
             'make' => ['required', 'string', 'max:255']
         ]);
 
