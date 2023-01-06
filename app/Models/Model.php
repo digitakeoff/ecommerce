@@ -11,6 +11,8 @@ class Model extends Eloquent
 
     protected $with = ['images'];
 
+    protected $table = 'models';
+
     protected $fillable = [
         'name', 'slug', 'make_id', 'image'
     ];
