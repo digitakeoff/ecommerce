@@ -60,23 +60,14 @@ Route::get('/states/{state}', [StateController::class, 'show']);
 Route::get('/contact', [ContactController::class, 'getContact'])->name('contact');
 
 Route::name('dashboard.')->prefix('dashboard')->group(function () {
-
-
-    Route::get('/', function () {
-        return view('dashboard.listings');
-    });
     
-    Route::get('/listings', function (Request $request) {
+    Route::get('/trackings', function (Request $request) {
         return view('dashboard.listings', ['cars' => \App\Models\Car::where('user_id', $request->user()->id)->get()]);
     })->name('listings');
 
     Route::get('/profile', function (Request $request) {
         return view('dashboard.profile', ['user' => $request->user()]);
-    })->name('profile');
-
-    Route::get('/leads', function () {
-        return view('dashboard.leads');
-    })->name('leads');
+    })->name('profile');  
 
 });
 // ->middleware(['auth', 'verified'])->name('dashboard');

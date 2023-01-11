@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="md:mx-4">
+    <div class="md:mx-4 mt-5 md:mt-20">
     <h1 class="mx-auto mb-5 uppercase pb-2 w-full
     text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
         All Cars

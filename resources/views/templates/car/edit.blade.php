@@ -34,7 +34,7 @@
                         <template x-for="(image, index) in car.images.concat(images)" x-bind:key="index">
                             <div class="relative m-1 h-20 w-20 cursor-pointer mt-2" 
                             x-on:click="selectedIndex(index)"
-                                x-bind:class="index == (localstorage.getItem('imgIndex') || car.main_image_index) ? 'rounded border ring-green-500 ring-2':''">
+                                x-bind:class="index == (localStorage.getItem('imgIndex') || car.main_image_index) ? 'rounded border ring-green-500 ring-2':''">
                                 <div x-on:click="handleDeleteImage(image)" 
                                     class="cursor-pointer -top-3 left-8 text-red-500 absolute">
                                     <span class="fas fa-times-circle"></span>

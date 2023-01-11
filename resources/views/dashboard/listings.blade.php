@@ -58,9 +58,9 @@
             @endforeach
         </table>
         @else
-        <p class="bg-gray-200 rounded py-2 text-center mt-20 w-52 mx-auto">
-            No listing 
-            <a class="bg-site-color text-white px-1 rounded" href="{{route('cars.create')}}">Sell car</a> </p>
+        <p class="bg-gray-200 rounded py-2 text-center mt-20 w-60 mx-auto">
+            No favorite
+            <a class="bg-site-color text-white px-1 rounded" href="{{route('cars.index')}}">Add car to favorite</a> </p>
         @endif
     </div>
 @endsection

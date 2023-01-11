@@ -6,7 +6,7 @@
         @include('layouts.navigation')
 
         <!-- <main class="w-full ml-auto bg-gray-100 py-5 sm:py-20 mb-20 h-full"> -->
-            @yield('content')
+        @yield('content')
         <!-- </main> -->
 
         <footer class="w-full fixed bottom-0">
