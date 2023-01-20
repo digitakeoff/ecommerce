@@ -6,6 +6,7 @@
 /public/body_type
 /public/make
 /storage/*.key
+/storage/app/public/*
 /vendor
 .env
 cardek.sql
