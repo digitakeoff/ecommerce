@@ -1,7 +1,14 @@
 <form x-data="makecreate" id="makecreate" enctype='multipart/form-data' method="post" 
-class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
-        {{storage_path()}}
-        <h1 class="text-center uppercase mb-5 border-b-2 pb-2 bg-gray-100 border-site-color">Add Make</h1>
+class="mx-auto md:my-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
+<div class="bg-gray-200 text-gray-500 font-bold uppercase my-5 flex justify-center 
+    pl-5 border-b-2 py-2 border-site-color">
+        <a href="{{route('makes.index')}}">
+            <span class="fas fa-chevron-left"></span>
+        </a>
+        <h1 class="mx-auto">
+            Add make
+        </h1>
+    </div>
         <template x-if="errors != null">
             <div class="bg-gray-200 rounded p-2 mb-3">
                 <template x-for="error in errors">

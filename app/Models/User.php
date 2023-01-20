@@ -40,6 +40,10 @@ class User extends Authenticatable
         return $this->fillable;
     }
 
+    public function getFullName(){
+        return $this->first_name .' '.$this->last_name;
+    }
+
     public function meta()
     {
         return $this->morphMany(Meta::class, 'metable');
@@ -53,7 +57,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'role'
     ];
 
 
@@ -76,12 +79,7 @@ class User extends Authenticatable
         return 'slug';
     }
 
-    // protected function password(): Attribute
-    // {
-    //     return Attribute::make(
-    //         set: fn ($value) => Hash::make($value),
-    //     );
-    // }
+    
 
     protected function firstName(): Attribute
     {

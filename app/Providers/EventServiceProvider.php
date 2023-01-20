@@ -10,6 +10,7 @@ use App\Events\ModelCreated;
 use App\Listeners\ProcessModelImageOnCreated;
 use App\Events\NewUserAdded;
 use App\Listeners\SendMailToUser;
+// use Illuminate\Database\Events\MigrationsStarted;
 // use App\Models\Make;
 // use App\Observers\MakeObserver;
 
@@ -40,6 +41,10 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         // Make::observe(MakeObserver::class);
+
+        // Event::listen(MigrationsStarted::class, function($event) {
+            
+        // });
     }
 
     /**

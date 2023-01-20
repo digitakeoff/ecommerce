@@ -2,7 +2,7 @@ export default () => ({
     name: '',
     image: '',
 
-    errors: null,
+    errors: [],
     images: '',
 
     init(){
@@ -12,8 +12,12 @@ export default () => ({
     },
 
     handleOnSubmit(){
-        let ap = this
+
+        var ap = this
+
         const images = JSON.parse(localStorage.getItem('images'))
+
+
         const formData = new FormData
         formData.append('name', this.name)
         formData.append('_method', 'PUT')

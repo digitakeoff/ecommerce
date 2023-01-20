@@ -99,29 +99,21 @@ class ModelController extends Controller
      */
     public function update(Request $request, Model $model)
     {
-        $request->validate([
-            'name'  => ['required', 'string', 'max:255']
-        ]);
-
-        $name = Str::title($request->name);
-        $slug = Str::slug(Str::lower($request->name), '-');
-        $req_image = json_decode($request->image);
-
-        $image = $req_image;
-        if($request->has('image'))
-            $image = $this->store_image($slug, $request->image, 'models');
-        $data = [
-            'name' => $name,
-            'slug' => $slug,
-            'make_id' => $request->make_id
-        ];
-            
-        if(($request->has('image'))){
-            $image = $this->store_image($slug, $request->image, 'models');
-            $data['image'] = $image;
-        }
         
-        $model->update($data);
+        $props = $model->getFillables();
+
+        foreach($props as $prop){
+            if($request->filled($prop)){
+                $model->fill([$prop => $request->input($prop)]);
+            }
+        }
+
+        if($request->filled('images')){
+            $images = json_decode($request->images);
+            event(new ModelCreated(get_class($model), $models->id, $images));
+        }
+
+        $model->save();
 
         if($request->expectsJson())
             return response()->json($model);

@@ -120,14 +120,16 @@ class UserController extends Controller
         $props = (new User)->getFillables();
 
         foreach($props as $prop){
-            if($request->has($prop) && $request->filled($prop)){
+            if($request->filled($prop)){
                 $user->fill([$prop => $request->input($prop)]);
             }
         }
 
-        if($request->has('password') && $request->filled('password')){
+        if($request->filled('password')){
             $user->fill(['password' => Hash::make($request->password)]);
         }
+
+        $user->save();
 
         if($request->expectsJson())
             return response()->json(['data' => 'user edited']);

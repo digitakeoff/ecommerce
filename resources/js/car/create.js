@@ -28,8 +28,6 @@ export default () => ({
     init(){
         this.image_index = JSON.parse(localStorage.getItem('imgIndex'))
 
-        // localStorage.removeItem('data')
-
         const data = JSON.parse(localStorage.getItem('data'))||{}
         for(let key in data){
             this[key] = data[key]
@@ -41,7 +39,6 @@ export default () => ({
         Array.from(els).forEach(el => {
             el.addEventListener('change', ap.onchange)
         })
-
     },
 
     onchange(e){

@@ -30,13 +30,15 @@ export default () => ({
       
         Array.from(els).forEach(el => {
             formData.append(el.getAttribute('x-model'),  document.querySelector('[x-model='+el.getAttribute('x-model')+']').value)
+            // console.log(`${el.getAttribute('x-model')}:${document.querySelector('[x-model='+el.getAttribute('x-model')+']').value}`)
         })
         
         window.axios.post('/users/'+user.slug, formData).then(({data}) => {
-            localStorage.clear()
-            window.location.reload()
+            console.log(data)
         }).catch((error) => {
             ap.errors = error.response.data.errors
         })
+
+        window.scrollTo(0, 0)
     }
 })

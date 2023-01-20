@@ -6,16 +6,15 @@ export default {
     cities:[],
     
     init() {
-        this.state_id = localStorage.getItem('state_id')
         window.axios.get('/states').then(({data}) => {
             this.locations = data
         })
  
-        // if(this.state_id){
-        //     window.axios.get('/states/'+this.state_id).then(({data}) => {
-        //         this.cities = data.cities
-        //     })
-        // }
+        if(window.state_id){
+            window.axios.get('/states/'+window.state_id).then(({data}) => {
+                this.cities = data.cities
+            })
+        }
     },
 
 

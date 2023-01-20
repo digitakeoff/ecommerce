@@ -1,52 +1,89 @@
-<div class="mx-auto mb-12 sm:w-10/12 w-full p-2" >
-    <h1 class="text-center uppercase mb-5 border-b-2 pb-2 bg-gray-100 border-site-color">All bodytype</h1>
+<div class="mx-auto md:my-12 px-2 md:px-8 w-full p-2" >
+    <h1 class="text-center bg-gray-200 text-gray-500 
+            font-bold uppercase my-5 border-b-2 py-2 border-site-color">All bodytypes</h1>
+
         <table class="w-full">
-        <thead>
-            <tr class="border-b border-gray-400">
-                <td class="pl-2"><span class="fas fa-file-image"></span></td>
-                <td>Name</td>
-                <td>Cars</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($bodies as $body)
-            <tr class="border-b border-gray-300">
-                <td>
-                <img class="w-10 h-10" src="{{($body->images != null)?asset($body->images->src):''}}" alt="{{$body->name}}">
-                </td>
-                <td>
-                    <a href="{{route('bodytypes.index')}}">
-                    {{$body->name}}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{route('bodytypes.show', $body)}}">
-                    {{count($body->cars)}}
-                    </a>
-                </td>
-                
-                <td class="cursor-pointer">
-                    <a href="{{route('bodytypes.edit', $body)}}">
-                    <span class="text-blue-500 fas fa-pen"></span>
-                    </a>
-                </td>
-                <td class="cursor-pointer">
-                    <div onclick="document.getElementById('body_{{$body->slug}}').submit()" 
-                    class="cursor-pointer">
-                        <span class="text-red-500 fas fa-times-circle"></span>
-                    </div>
+            <thead class="bg-gray-300">
+                <tr class="border-b border-gray-400">
+                    <td class="pr-3 py-2"> <input class="rounded" type="checkbox"> Name</td>
+                    <td class="mdd:hidden">Sales</td>
+                    
+                    <td class="mdd:hidden">Cars</td>
+                </tr>
+            </thead>
 
-                    <form class="hidden" id="body_{{$body->slug}}" method="post"
-                    action="{{route('admin.bodytypes.destroy', $body)}}">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-</table>
+            <tfoot class="bg-gray-300">
+                <tr class="border-b border-gray-400">
+                    <td class="pl-"> <input class="rounded" type="checkbox"> Name</td>
+                    <td class="mdd:hidden">Sales</td>
+                    <td class="mdd:hidden">Cars</td>
+                </tr>
+            </tfoot>
+            
+            <tbody class="w-full">
+                @foreach($bodies as $body)
+                    <tr x-data="{ open : false, cascade : true }" 
+                    x-on:mouseenter="open = true"  x-on:mouseleave="open = false" 
+                    class="border-b border-gray-300 relative mdd:flex mdd:flex-col  w-full mdd:flex-wrap"> 
 
+                        <th class="absolute top-1">
+                            <input class="rounded" type="checkbox">
+                        </th>
+                        <td class="pl-6 flex justify-between py-2">
+                            <div >                           
+                                <a href="{{route('admin.bodytypes.show', $body)}}">
+                                    {{$body->name}}
+                                </a>
+                                <div x-show="open">
+                                    <a class="text-blue-700" href="{{route('admin.bodytypes.edit', $body)}}">Edit</a> | 
+                                    <a class="text-green-700" href="{{route('admin.bodytypes.edit', $body)}}">View</a> |
+                                    @if($body->email != 'udosenakane@gmail.com')
+                                    <a class="text-red-700" href="{{route('admin.bodytypes.edit', $body)}}">Delete</a> |
+                                    @endif
+                                    
+                                    <a class="text-yellow-600" href="{{route('admin.bodytypes.edit', $body)}}">Send password reset</a>
+                                </div>
+                            </div>
+ 
+                            <button x-on:click="cascade = !cascade" class="hidden mdd:block">
+                                <div class="text-white bg-gray-800 rounded-full w-6 p-0">
+                                    <span class="fas fa-caret-down"></span>
+                                </div>
+                            </button>
+                        </td>
+
+                        <td x-bind:class="cascade? 'mdd:hidden':''" 
+                        class="mdd:pl-6 mdd:flex mdd:justify-between">
+                            <span class="hidden mdd:block">Sales</span>
+                            <a href="{{route('admin.bodytypes.show', $body)}}">
+                            {{count($body->cars)}}
+                            </a>
+                        </td>
+
+                        <td x-bind:class="cascade? 'mdd:hidden':''"
+                        class="mdd:pl-6 mdd:flex mdd:justify-between">
+                            <span class="hidden mdd:block">Cars</span>
+                            <a href="{{route('admin.bodytypes.show', $body)}}">
+                            {{count($body->cars)}}
+                            </a>
+                        </td>
+                        <td x-bind:class="cascade? 'mdd:hidden':''"
+                        class="mdd:pl-6 mdd:flex mdd:justify-between">
+                            <span class="hidden mdd:block">Phone number</span>
+                            {{$body->phone}}
+                        </td>
+                        <td x-bind:class="cascade? 'mdd:hidden':''" 
+                        class="mdd:pl-6  mdd:flex mdd:justify-between">
+                            <span class="hidden mdd:block">Email Address</span>
+                            {{$body->email}}
+                        </td>
+                        <td x-bind:class="cascade? 'mdd:hidden':''" 
+                        class="mdd:pl-6 mdd:flex mdd:justify-between">
+                            <span class="hidden mdd:block">Role</span>
+                            {{role($body->role)}}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 </div>

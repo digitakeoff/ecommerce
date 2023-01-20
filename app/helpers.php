@@ -54,3 +54,28 @@
 
         }   
     }
+
+    function role($key){
+        switch($key){
+            case 'admin':
+                return 'Administrator';
+                break;
+            
+            case 'customer':
+                return 'Customer';
+                break;
+
+            case 'agent':
+                return 'Agent';
+                break;
+            
+            case 'dealer':
+                return 'Dealer';
+                break;
+
+            case 'manager':
+                return 'Manager';
+                break;
+
+        }   
+    }

@@ -29,13 +29,10 @@ export default () => ({
     init(){
         var ap = this
         
-        localStorage.setItem('state_id', car.state.id)
-        localStorage.setItem('make_id', car.make.id)
-        localStorage.setItem('make_slug', car.make.slug)
-        
         const els = document.querySelectorAll('[x-model]')
+
         Array.from(els).forEach(el => {
-            this[el.getAttribute('x-model')] = car[el.getAttribute('x-model')]
+            ap[el.getAttribute('x-model')] = car[el.getAttribute('x-model')] 
         })
     },
 

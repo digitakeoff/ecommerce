@@ -66,6 +66,17 @@ class Car extends Eloquent
         return $this->belongsTo(State::class);
     }
 
+    public function isSold()
+    {
+        return $this->meta()->key=='sold' && $this->meta()->value == 'yes';
+    } 
+
+    public function meta()
+    {
+        return $this->morphMany(Meta::class, 'metable');
+    }
+
+
     public function city()
     {
         return $this->belongsTo(City::class);

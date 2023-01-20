@@ -1,7 +1,10 @@
 <form x-data="modelcreate" id="modelcreate" enctype='multipart/form-data' method="post" 
-class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
+class="mx-auto md:my-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
-        <h1 class="text-center uppercase mb-5 border-b-2 pb-2 bg-gray-100 border-site-color">Add model</h1>
+<h1 class="text-center bg-gray-200 text-gray-500 font-bold uppercase my-5 
+    border-b-2 py-2 border-site-color">
+        Add model
+    </h1>
         <template x-if="errors != null">
             <div class="bg-gray-200 rounded p-2 mb-3">
                 <template x-for="error in errors">
@@ -26,7 +29,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
                 <img  class="rounded border h-20 w-20" x-bind:src="images[images.length-1].url">
             </template>
             
-            <p style="top:0px;right:0;left:0;width:300px" 
+            <p style="top:0px;right:0;left:0;width:200px" 
                 class="py-0 rounded-bl rounded-br mx-auto border-l uppercase
                 border-r border-b border-gray-400 text-center absolute">
                 model Logo</p>

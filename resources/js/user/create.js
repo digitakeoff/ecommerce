@@ -13,7 +13,6 @@ export default () => ({
     errors: null,
 
     init(){
-        
         const data = JSON.parse(localStorage.getItem('data')) || {}
         console.log(data)
         for(let key in data){

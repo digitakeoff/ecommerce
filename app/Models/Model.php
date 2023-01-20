@@ -11,11 +11,16 @@ class Model extends Eloquent
 
     protected $with = ['images'];
 
-    protected $table = 'models';
+    // protected $table = 'models';
 
     protected $fillable = [
         'name', 'slug', 'make_id', 'image'
     ];
+
+
+    public function getFillables(){
+        return $this->fillable;
+    }
 
     public function cars()
     {

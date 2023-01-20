@@ -38,10 +38,6 @@ class Make extends Eloquent
 
     public function getRouteKeyName()
     {
-        if ($this->id !== null) {
-            return 'id';
-        }
-        // otherwise, return default
         return 'slug';
     }
 }

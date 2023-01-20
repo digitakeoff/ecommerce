@@ -17,6 +17,7 @@ class CarController extends Controller
     public function __construct()
     {
         $this->middleware(['auth'])->except(['show', 'index']);
+        $this->authorizeResource(Car::class, 'car');
     }
     /**
      * Display a listing of the resource.
@@ -112,7 +113,7 @@ class CarController extends Controller
     public function show(Car $car)
     {
         if(request()->routeIs('admin.*'))
-            return view('admin.car.show', ['car'=>$car]);
+            return view('admin.car.show', ['car' => $car]);
         return view('car.show', ['car'=>$car]);
     }
 
@@ -125,7 +126,7 @@ class CarController extends Controller
     public function edit(Car $car)
     {
         if(request()->routeIs('admin.*'))
-            return view('admin.car.edit', ['car'=>$car]);
+            return view('admin.car.edit', ['car' => $car]);
         return view('car.edit', ['car'=>$car]);
     }
 

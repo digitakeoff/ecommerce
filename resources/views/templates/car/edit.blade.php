@@ -1,15 +1,23 @@
-<div class="flex md:flex-row flex-col mb-20">
-    <div class="md:w-8/12 w-full px-2 sm:mx-4 py-2">
+<div class="flex md:flex-row flex-col md:my-12">
+            
+    <div class="md:w-8/12 w-full px-2 sm:mx-4 pt-2">
         <form x-data="caredit" enctype='multipart/form-data' method="post" id="caredit"
                 x-on:submit.prevent="handleOnSubmit" class="w-full">
+                
+            <div class="bg-gray-200 text-gray-500 mb-4 font-bold uppercase flex justify-center 
+            pl-5 border-b-2 py-2 border-site-color">
+                <a href="{{route('cars.index')}}">
+                    <span class="fas fa-chevron-left"></span>
+                </a>
+                <h1 class="mx-auto">
+                    EDIT | {{$car->name}}
+                </h1>
+            </div>
             <script>
-                var car = <?php echo json_encode($car); ?>
-            </script>
-            <h1 class="mb-5 uppercase pb-2 w-full text-center bg-gray-200 text-gray-500 
-            font-bold border-b-2 py-2 border-site-color">
-                {{ $car->name }}
-            </h1>
+                var car = <?php echo json_encode($car); ?>;
+                var state_id = car.state.id;
 
+            </script>
             <template x-if="errors != null">
                 <div class="bg-gray-200 rounded p-2 mb-3">
                     <template x-for="error in errors">
@@ -70,12 +78,11 @@
                 x-model="address" x-model="address"  required />
             </div>
 
-            <div class="flex flex-col sm:flex-row mt-4">
+            <div x-data class="flex flex-col sm:flex-row mt-4">
                 <div class="py-1 w-full rounded sm:mr-1 mr-0 sm:w-1/2">
-                    <x-input-label for="state_id" :value="__('STATE')" />
-                    <select x-model="state_id" id="state_id"
-                    x-on:change="$store.location.selectState(event)" 
-                    class="py-1 w-full rounded border border-gray-300 focus:bg-gray-100 bg-gray-300">
+                    <x-input-label for="state" :value="__('STATE')" />
+                    <select x-model="state_id" id="state" x-on:change="$store.location.selectState(event)" 
+                    class="focus:bg-gray-100 bg-gray-200 py-1 w-full rounded border border-gray-300">
                         <option value="">-- SELECT STATE --</option>
                         <template x-for="state in $store.location.locations">
                             <option x-bind:value="state.id"
@@ -84,30 +91,31 @@
                         </template>
                     </select>
                 </div>
-                
+        
                 <div class="py-1 w-full rounded sm:mt-0 mt-4 sm:ml-1 ml-0 sm:w-1/2">
-                    <x-input-label for="city_id" :value="__('CITY')" />
+                    <x-input-label for="city" :value="__('CITY')" />
 
-                    <select x-model="city_id" id="city_id" x-on:change="$store.location.selectCity(event)" 
-                    class="py-1 w-full rounded border border-gray-300 focus:bg-gray-100 bg-gray-300">
+                    <select x-model="city_id" id="city" 
+                    x-bind:class="!$store.location.cities.length ? 'bg-gray-200 cursor-not-allowed':''" 
+                    x-bind:disabled="!$store.location.cities.length" x-on:change="$store.location.selectCity(event)" 
+                    class="focus:bg-gray-100 bg-gray-200 py-1 w-full rounded border border-gray-300">
                     <option value="">-- SELECT CITY --</option>
                     <!-- <template x-if="$store.location.cities.length"> -->
                         <template x-for="city in $store.location.cities">
                                 <option x-bind:value="city.id" 
-                                x-bind:selected="city.id == car.city.id"
-                                x-text="city.name"></option>
+                                x-bind:selected="city.id == car.city.id" x-text="city.name"></option>
                         </template>
                     <!-- </template> -->
-                    </select>
+                </select>
                 </div>
-            
+       
             </div>
                 
             <div class="mt-4">
                 <x-input-label for="price" :value="__('PRICE')" />
 
                 <x-text-input id="price" class="block w-full py-1 focus:bg-gray-100 bg-gray-300" type="text" 
-                    x-model="price" :value="$car->price" required />
+                    x-model="price" value="car.price" required />
             </div>
 
             <div class="flex flex-col sm:flex-row mt-4">
@@ -192,7 +200,7 @@
                 <x-input-label for="vin" :value="__('VEHICLE IDENTIFICATION NUMBER')" />
 
                 <x-text-input id="vin" class="block w-full py-1 focus:bg-gray-100 bg-gray-300" type="text" 
-                    x-model="vin"  required />
+                    x-model="vin" required />
             </div>
 
             <div class="mt-4">
@@ -275,12 +283,12 @@
                 </div>
             </div>
 
-            <div class="mt-4 w-full">
+            <!-- <div class="mt-4 w-full">
                 <x-input-label for="description" :value="__('DESCRIPTION')" />
 
                 <textarea rows=6 x-model="description" x-model="description" id="description" 
                     placeholder="Description" class="focus:bg-gray-100 bg-gray-300 w-full py-1 rounded border border-gray-300"></textarea>
-            </div>
+            </div> -->
                 
             <button class="bg-site-color uppercase w-full py-2 mt-2 rounded text-white hover:bg-green-900">
                 update

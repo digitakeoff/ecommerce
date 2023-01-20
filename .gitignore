@@ -7,6 +7,8 @@
 /storage/*.key
 /vendor
 .env
+cardek.sql
+deploy.sh
 .env.backup
 .env.production
 .phpunit.result.cache

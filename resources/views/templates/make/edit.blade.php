@@ -1,11 +1,19 @@
 <form x-data="makeedit" id="makeedit" enctype='multipart/form-data' method="post" 
-class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
+class="mx-auto md:my-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit">
 
         <script>
             var make = <?php echo json_encode($make); ?>;
         </script>
 
-        <h1 class="text-center uppercase mb-5 border-b-2 pb-2 bg-gray-100 border-site-color">Edit Make</h1>
+<div class="bg-gray-200 text-gray-500 font-bold uppercase my-5 flex justify-center 
+    pl-5 border-b-2 py-2 border-site-color">
+        <a href="{{route('admin.makes.index')}}">
+            <span class="fas fa-chevron-left"></span>
+        </a>
+        <h1 class="mx-auto">
+            EDIT {{$make->name}}
+        </h1>
+    </div>
         <template x-if="errors != null">
             <div class="bg-gray-200 rounded p-2 mb-3">
                 <template x-for="error in errors">
@@ -30,7 +38,7 @@ class="mx-auto mb-12 sm:w-10/12 w-full p-2" x-on:submit.prevent="handleOnSubmit"
                 <img  class="rounded border h-20 w-20" x-bind:src="images[images.length-1].url">
             </template>
             <template x-if="!images.length">
-                <img  class="rounded border h-20 w-20" x-bind:src="'/storage/makes/'+image">
+                <img  class="rounded border h-20 w-20" x-bind:src="make.images.src">
             </template>
             
             <p style="top:0px;right:0;left:0;width:300px" 

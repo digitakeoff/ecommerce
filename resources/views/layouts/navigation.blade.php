@@ -159,12 +159,11 @@
     </nav>
 
     <nav x-show="open" x-transition.duration.400ms x-on:click.outside="clickOutside" 
-        style="right:0;left:0"
-        class="px-3 z-10 absolute md:overflow-hidden  md:-mt-1  
-        md:border-t-0 border-t-2 border-site-colo md:block  shadow-t-none
-        bg-white bg-gray-200 md:rounded-bl-full border md:rounded-br-full md:w-8/12 w-full mx-auto text-gray-700">
-        <ul class="flex py-2 justify-around md:flex-row flex-col md:text-center items-center">
+        style="right:0;left:0" class="px-3 z-10 absolute md:overflow-hidden md:-mt-1  
+        md:border-t-0 border-t-2 lg:block  shadow-t-none
+        bg-white bg-gray-200 md:rounded-bl-full border md:rounded-br-full lg:w-8/12 md:w-10/12 w-full mx-auto text-gray-700">
 
+        <ul class="flex py-2 justify-around md:flex-row flex-col md:text-center items-center">
             <li class="w-full {{ Route::currentRouteName()=='cars.index'? 'text-site-color':''}} 
             md:w-1/5 md:border-r-2 
             border-site-color md:border-b-0 uppercase border-b">

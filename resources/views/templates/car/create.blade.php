@@ -1,10 +1,15 @@
 <form x-data="carcreate" enctype='multipart/form-data' method="post" id="carcreate"
-        x-on:submit.prevent="handleOnSubmit" class="mx-2 sm:mx-4 py-2 mb-20">
+        x-on:submit.prevent="handleOnSubmit" class="mx-2 sm:mx-4 py-2 md:my-20">
 
-    <h1 class="mb-5 uppercase pb-2 w-full text-center bg-gray-200 text-gray-500 
-    font-bold border-b-2 py-2 border-site-color">
-        {{__('Sell car')}}
-    </h1>
+        <div class="bg-gray-200 text-gray-500 mb-4 font-bold uppercase flex justify-center 
+            pl-5 border-b-2 py-2 border-site-color">
+                <a href="{{route('admins.cars.index')}}">
+                    <span class="fas fa-chevron-left"></span>
+                </a>
+                <h1 class="mx-auto">
+                    Add Car
+                </h1>
+        </div>
 
     <template x-if="errors != null">
         <div class="bg-gray-200 rounded p-2 mb-3">

@@ -1,11 +1,17 @@
 export default () => ({
     name: '',
 
-    errors: null,
+    errors: [],
 
     handleOnSubmit(){
-        console.log(this.images)
+        var ap = this
+
         const images = JSON.parse(localStorage.getItem('images'))
+        if(images == null){
+            ap.errors.push(['Image is required'])
+            return
+        }
+
         if(images.length){
             let ap = this
             const formData = new FormData
@@ -14,10 +20,11 @@ export default () => ({
 
             window.axios.post('/admin/bodytypes', formData).then(() => {
                 localStorage.removeItem('images')
-                location.reload()
             }).catch((error) => {
                 ap.errors = error.response.data.errors
             })
+
+            window.scrollTo(0, 0)
         }
     }
 
