@@ -2,8 +2,10 @@
 
 
 @section('content')
+<div class="mx-auto border border-gray-300 h-auto p-3 max-w-screen-sm my-auto shadow rounded w-full">
 
-        <div class="mb-4 text-sm text-gray-600">
+        <h1 class="w-full mx-auto mb-5 uppercase
+        text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
             {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
         </div>
 
@@ -28,4 +30,6 @@
                 </x-primary-button>
             </div>
         </form>
+</div>
+
 @endsection

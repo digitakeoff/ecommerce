@@ -3,7 +3,7 @@
 
         <div class="bg-gray-200 text-gray-500 mb-4 font-bold uppercase flex justify-center 
             pl-5 border-b-2 py-2 border-site-color">
-                <a href="{{route('admins.cars.index')}}">
+                <a href="{{route('admin.cars.index')}}">
                     <span class="fas fa-chevron-left"></span>
                 </a>
                 <h1 class="mx-auto">

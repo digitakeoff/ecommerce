@@ -3,14 +3,16 @@
     @include('layouts.head')
     
     <body>
-        <!-- <main class="w-full ml-auto bg-gray-100 py-5 sm:py-20 mb-20 h-full"> -->
-            @yield('content')
-        <!-- </main> -->
+        <div id="app">
+    	    <!-- <main class="w-full ml-auto bg-gray-100 py-5 sm:py-20 mb-20 h-full"> -->
+                @yield('content')
+            <!-- </main> -->
 
-        <footer class="w-full fixed bottom-0">
-            <p class="bg-gray-300 w-80 mx-auto text-center rounded-tl-full text-gray-600 rounded-tr-full py-0">
-                &copy;{{date('Y')}} | {{config('app.name')}}<sup>&reg;</sup>
-            </p>
-        </footer>
+            <footer class="w-full fixed bottom-0">
+                <p class="bg-gray-300 w-80 mx-auto text-center rounded-tl-full text-gray-600 rounded-tr-full py-0">
+                    &copy;{{date('Y')}} | {{config('app.name')}}<sup>&reg;</sup>
+                </p>
+            </footer>
+        </div>
     </body>
 </html>

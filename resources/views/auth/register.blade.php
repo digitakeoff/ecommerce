@@ -2,10 +2,10 @@
 
 
 @section('content')
-<div class="mx-3 mt-6">
+<div class="mx-auto border border-gray-300 p-3 max-w-xl shadow rounded w-full md:mt-20 my-5">
 
-<h1 class="max-w-xl mx-auto mb-5 uppercase pb-2 w-full mt-20
-text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
+        <h1 class="w-full mx-auto mb-5 uppercase
+        text-center bg-gray-200 text-gray-500 font-bold border-b-2 py-2 border-site-color">
     sign up
 </h1>
 <form method="POST" id="register" x-data="userregister" class="max-w-xl mx-auto md:px-0 mb-20" 
