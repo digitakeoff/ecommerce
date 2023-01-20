@@ -8,7 +8,6 @@
 /storage/*.key
 /storage/app/public/*
 /vendor
-
 .env
 cardek.sql
 deploy.sh
