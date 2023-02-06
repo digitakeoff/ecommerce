@@ -5,7 +5,7 @@
     <body>
         <div class="flex flex-col w-full h-full">
 
-            @include('layouts.navigation')
+            @include('layouts.nav')
 
             <!-- <main class="w-full h-auto"> -->
             @yield('content')
@@ -13,7 +13,7 @@
             <!-- fixed bottom-0 -->
             <footer class="w-full fixed bottom-0">
                 <p class="bg-gray-300 w-80 mx-auto text-center rounded-tl-full 
-                text-gray-600 rounded-tr-full py-0">
+                text-gray-600 rounded-tr-full py-">
                     &copy;{{date('Y')}} | {{config('app.name')}}<sup>&reg;</sup>
                 </p>
             </footer>

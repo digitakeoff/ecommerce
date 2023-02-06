@@ -9,12 +9,16 @@ export default {
         window.axios.get('/states').then(({data}) => {
             this.locations = data
         })
- 
-        if(window.state_id){
-            window.axios.get('/states/'+window.state_id).then(({data}) => {
+        
+        const state_id = localStorage.getItem('state_id')
+
+        if(state_id){
+            window.axios.get('/states/'+state_id).then(({data}) => {
                 this.cities = data.cities
             })
         }
+
+        // this.selectState($event)
     },
 
 
@@ -24,8 +28,10 @@ export default {
         
         localStorage.setItem('state_id', e.target.value)
 
-        if(e.target.value){
-            window.axios.get('/states/'+e.target.value).then(({data}) => {
+        const state = e.target.value || localStorage.getItem('state_id')
+
+        if(state){
+            window.axios.get('/states/'+state).then(({data}) => {
                 ap.cities = data.cities
                 console.log(ap.cities)
             })

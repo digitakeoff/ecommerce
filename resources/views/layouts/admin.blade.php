@@ -3,7 +3,7 @@
     @include('layouts.head')
 
     <body class="h-full">
-        @include('layouts.navigation')
+        @include('layouts.nav')
        
         <main class="w-full h-full">
             @yield('content')

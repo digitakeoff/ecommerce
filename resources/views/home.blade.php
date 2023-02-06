@@ -3,21 +3,11 @@
 @section('content')
 <main  class="mb-10">
     <div  class="md:h-96 h-56 flex overflow-hidden">
-        <div class="hidden md:inline-block md:w-1/5 h-full bg-gray-200 p-2">
-            <h2 class="uppercase mb-4 border-b bg-gray-300 border-gray-400 p-2">By Make</h2> 
-            <ul class="uppercase">
-                @foreach($makes as $make)
-                <li class="border-b border-gray-400 hover:pl-1 pl-2">
-                    <a href="{{ route('makes.show', $make) }}">{{$make->name}}</a>
-                </li>
-                @endforeach
-            </ul>
-        </div>
 
         <div x-data="carousel()" class="w-full h-full md:w-3/5">
             <template x-if="products.length">
                 <div class="relative h-full">
-                    <a x-ref="img" class="h-full" x-bind:href="'/cars/'+products[selected].slug">
+                    <a x-ref="img" class="h-full" x-bind:href="'/products/'+products[selected].slug">
                         <img class="h-full w-full" x-bind:src="products[selected].images[0].src" 
                         x-bind:alt="products[selected].name" />
 
@@ -50,23 +40,12 @@
             </template>
         </div>
 
-        <div class="hidden text-right md:inline-block md:w-1/5 h-full bg-gray-200 p-2">
-            <h2 class="uppercase mb-4 border-b bg-gray-300 border-gray-400 p-2">By type</h2>    
-
-            <ul class="uppercase">
-                @foreach($bodies as $make)
-                <li class="border-b border-gray-400 hover:pr-1 pr-2">
-                    <a href="{{ route('bodytypes.show', $make) }}">{{$make->name}}</a>
-                </li>
-                @endforeach
-            </ul>
-        </div>
     </div>
     
     <div class="flex sm:flex-row flex-col p-2">
-        @foreach($latestcars as $car)
+        @foreach($latestproducts as $product)
             <div class="md:w-1/6">
-                <x-car-card :car="$car"/>
+                <x-product-card :product="$product"/>
             </div>
         @endforeach
     </div>

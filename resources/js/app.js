@@ -6,19 +6,15 @@ import location from './location'
 import user from './user'
 import nav from './nav'
 import fileupload from './fileupload'
-import carcreate from './car/create'
-import caredit from './car/edit'
+import productcreate from './product/create'
+import productedit from './product/edit'
 import userregister from './auth/register'
-import makeedit from './make/edit'
-import makecreate from './make/create'
+import brandedit from './brand/edit'
+import brandcreate from './brand/create'
 import modelcreate from './model/create'
 import modeledit from './model/edit'
 import usercreate from './user/create'
 import useredit from './user/edit'
-import bodycreate from './body/create'
-import bodyindex from './body/index'
-import bodyedit from './body/edit'
-import makemodel from './makemodel'
 import loan from './loancal'
 // import imagecreate from './image/create'
 
@@ -30,21 +26,17 @@ Alpine.data('userregister', userregister)
 Alpine.data('fileupload', fileupload)
 // Alpine.data('imagecreate', imagecreate)
 Alpine.store('location', location)
-Alpine.store('makemodel', makemodel)
 Alpine.store('user', user)
 
 Alpine.data('carousel', carousel)
 Alpine.data('nav', nav)
-Alpine.data('carcreate', carcreate)
-Alpine.data('caredit', caredit)
-Alpine.data('makeedit', makeedit)
-Alpine.data('makecreate', makecreate)
+Alpine.data('productcreate', productcreate)
+Alpine.data('productedit', productedit)
+Alpine.data('brandedit', brandedit)
+Alpine.data('brandcreate', brandcreate)
 Alpine.data('modelcreate', modelcreate)
 Alpine.data('modeledit', modeledit)
 Alpine.data('usercreate', usercreate)
 Alpine.data('useredit', useredit)
-Alpine.data('bodycreate', bodycreate)
-Alpine.data('bodyedit', bodyedit)
-Alpine.store('bodyindex', bodyindex)
 
 Alpine.start()

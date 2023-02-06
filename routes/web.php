@@ -2,9 +2,9 @@
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\CarController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\MakeController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\BodytypeController;
 use App\Http\Controllers\UserController;
@@ -22,38 +22,17 @@ use App\Http\Controllers\StateController;
 */
 
 Route::get('/', function () {
-    return view('home', ['latestcars' => App\Models\Car::latest()->limit(5)->get()]);
+    return view('home', ['latestproducts' => App\Models\Product::latest()->limit(5)->get()]);
 })->name('home');
 
 Route::get('/latests', function () {
-    return response()->json(App\Models\Car::latest()->limit(5)->get());
+    return response()->json(App\Models\Product::latest()->limit(5)->get());
 });
 
-// Route::get('/location', function () {
-//     $file = json_decode(file_get_contents(base_path('states-and-cities.json')), true);
-
-//     $data = [];
-//     foreach($file as $state){
-//         $state_info = [];
-
-//         $state_info['name'] = $state['name'];
-//         $state_info['slug'] = Str::slug(Str::lower($state['name']));
-
-//         foreach($state['cities'] as $city){
-//             $cities = [];
-
-//             $cities['name'] = $city;
-//             $cities['slug'] = Str::slug(Str::lower($city));
-//             $state_info['cities'][] = $cities; 
-//         }
-//         $data[] = $state_info;
-//     }
-//     return response()->json($data);
-// })->name('location');
 
 
 
-Route::resource('cars', CarController::class);
+Route::resource('products', ProductController::class);
 Route::get('/states', [StateController::class, 'index']);
 Route::get('/states/{state}', [StateController::class, 'show']);
 
@@ -62,7 +41,7 @@ Route::get('/contact', [ContactController::class, 'getContact'])->name('contact'
 Route::name('dashboard.')->prefix('dashboard')->group(function () {
     
     Route::get('/trackings', function (Request $request) {
-        return view('dashboard.listings', ['cars' => \App\Models\Car::where('user_id', $request->user()->id)->get()]);
+        return view('dashboard.listings', ['products' => \App\Models\Product::where('user_id', $request->user()->id)->get()]);
     })->name('listings');
 
     Route::get('/profile', function (Request $request) {
@@ -70,7 +49,6 @@ Route::name('dashboard.')->prefix('dashboard')->group(function () {
     })->name('profile');  
 
 });
-// ->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::post('/fileupload', function (Request $request) {
@@ -90,17 +68,14 @@ Route::name('admin.')->prefix('admin')->middleware(['auth'])->group(function () 
     
     
 
-    Route::resource('cars', CarController::class);
+    Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
-    Route::resource('makes', MakeController::class);
+    Route::resource('brands', BrandController::class);
     Route::resource('models', ModelController::class);
-    Route::resource('bodytypes', BodytypeController::class);
 });
 
 Route::resource('users', UserController::class);
-// Route::get('/makes/{id}', [MakeController::class, 'show']);
-Route::resource('makes', MakeController::class);
-Route::resource('bodytypes', BodytypeController::class);
+Route::resource('brands', BrandController::class);
 Route::resource('models', ModelController::class);
 Route::resource('images', ImageController::class);
 

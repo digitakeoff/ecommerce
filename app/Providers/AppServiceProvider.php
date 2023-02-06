@@ -5,9 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use App\Models\Car;
-use App\Models\Make;
-use App\Models\Bodytype;
+use App\Models\Product;
+use App\Models\Brand;
 
 
 
@@ -31,9 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if (!app()->runningInConsole()) {
-            View::share('makes', Make::all());
-            View::share('bodies', Bodytype::all());
-            View::share('carousels', Car::latest()->limit(5)->get());
+            View::share('brands', Brand::all());
+            View::share('carousels', Product::latest()->limit(5)->get());
         }
         Schema::defaultStringLength(191);
 
